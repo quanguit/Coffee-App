@@ -5,12 +5,12 @@ type Props = {
   name: string;
 };
 
-const Person: React.FC<Props> = () => {
+const CartScreen: React.FC<Props> = () => {
   return (
     <View>
-      <Text>Person</Text>
+      <Text>CartScreen</Text>
     </View>
   );
 };
 
-export default Person;
+export default CartScreen;

@@ -1,6 +1,6 @@
-// import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-const AppStack = createBottomTabNavigator();
+// include AuthorizedStack or UnauthorizedStack
+const AppStack = createNativeStackNavigator();
 
 export default AppStack;
