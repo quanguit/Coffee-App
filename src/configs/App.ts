@@ -1,4 +1,5 @@
 import { ViewStyle } from 'react-native';
+import { KeyboardAwareScrollViewProps } from 'react-native-keyboard-aware-scroll-view';
 
 export const SCREEN_MARGIN_HORIZONTAL = 24;
 export const HEADER_HEIGHT = 84;
@@ -19,8 +20,21 @@ export enum NAME_PAGES {
   Cart = 'Cart',
   Person = 'Person',
   Detail = 'Detail',
+  Ordered = 'Ordered',
+  SignIn = 'SignIn',
+  SignUp = 'SignUp',
+  Introduce = 'Introduce',
+  ForgotPassword = 'ForgotPassword',
+  Selection = 'Selection',
 }
 
 export enum NAME_STACK {
   HomeStack = 'HomeStack',
+  CartStack = 'CartStack',
 }
+
+export const DEFAULT_KEYBOARD_AWARE_SCROLL_VIEW_CONFIGS: KeyboardAwareScrollViewProps =
+  {
+    enableOnAndroid: true,
+    extraScrollHeight: 80,
+  };

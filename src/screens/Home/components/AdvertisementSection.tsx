@@ -36,8 +36,8 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   heading: {
-    fontSize: 18,
-    fontWeight: '500',
+    fontSize: 22,
+    fontWeight: '600',
     marginHorizontal: SCREEN_MARGIN_HORIZONTAL,
     marginBottom: 10,
     marginTop: 20,

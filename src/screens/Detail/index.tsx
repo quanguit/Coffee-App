@@ -57,7 +57,13 @@ const DetailScreen = () => {
               and milk. It consists of one-third heated milk and one-third milk
               foam and is generally served in... Read more
             </Text>
-            <Button style={styles.button} label={`Add to cart | $${6.99}`} />
+            <Button
+              wrapperStyle={styles.btn}
+              style={styles.styleBtn}
+              label={`Add to cart | $${6.99}`}
+              borderColor="#754C24"
+              backgroundColor="#754C24"
+            />
           </View>
         </View>
       </View>
@@ -99,6 +105,7 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 40,
     borderTopRightRadius: 40,
     height: 330,
+    position: 'relative',
   },
   menu: {
     flexDirection: 'row',
@@ -106,8 +113,8 @@ const styles = StyleSheet.create({
     marginHorizontal: SCREEN_MARGIN_HORIZONTAL,
   },
   heading: {
-    fontSize: 20,
-    fontWeight: '700',
+    fontSize: 22,
+    fontWeight: '600',
     marginHorizontal: SCREEN_MARGIN_HORIZONTAL,
     marginBottom: 10,
     marginTop: 20,
@@ -134,8 +141,14 @@ const styles = StyleSheet.create({
     lineHeight: 25,
     marginBottom: 8,
   },
-  button: {
-    marginTop: 10,
+  btn: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    bottom: 10,
+  },
+  styleBtn: {
+    width: 280,
   },
 });
 

@@ -3,6 +3,7 @@ import {
   Image,
   SafeAreaView,
   StyleSheet,
+  Text,
   TouchableOpacity,
   View,
 } from 'react-native';
@@ -10,19 +11,16 @@ import Ionicon from 'react-native-vector-icons/Ionicons';
 import { HEADER_HEIGHT, SCREEN_MARGIN_HORIZONTAL } from '../configs/App';
 import ShadowView from 'react-native-simple-shadow-view';
 import { IC_AVATAR } from '../assets';
-import { NavigationScreenProp } from 'react-navigation';
 import { useNavigation } from '@react-navigation/native';
-import { AllScreenNavigationProp } from '../configs/Navigation';
 
 type Props = {
   title?: string;
   user?: boolean;
   canBack?: boolean;
-  navigation?: NavigationScreenProp<any, any>;
 };
 
-const Header = ({ user, canBack }: Props) => {
-  const navigation = useNavigation<AllScreenNavigationProp>();
+const Header = ({ user, canBack, title }: Props) => {
+  const navigation = useNavigation();
 
   return (
     <ShadowView>
@@ -33,6 +31,18 @@ const Header = ({ user, canBack }: Props) => {
             style={styles.backButton}>
             <Ionicon name="arrow-back" size={25} />
           </TouchableOpacity>
+        )}
+        {title && (
+          <View style={{ flex: 1 }}>
+            <Text
+              style={[
+                styles.title,
+                { marginRight: canBack && !user ? 70 : 0 },
+                { marginLeft: !canBack && user ? 70 : 0 },
+              ]}>
+              {title}
+            </Text>
+          </View>
         )}
         {user && (
           <View style={styles.titleContainer}>
@@ -60,12 +70,15 @@ const styles = StyleSheet.create({
     marginLeft: 'auto',
   },
   title: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginRight: 10,
+    fontSize: 20,
+    fontWeight: '600',
+    textAlign: 'center',
   },
   backButton: {
     marginLeft: SCREEN_MARGIN_HORIZONTAL - 12,
+    width: 50,
+    height: 50,
+    justifyContent: 'center',
   },
   avatar: {
     width: 50,

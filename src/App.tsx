@@ -9,23 +9,28 @@ import UnauthorizedStack, {
 } from './navigation/UnauthorizedStack';
 import { DefaultScreenOptions } from './configs/Navigation';
 
-const { Navigator, Screen } = AppStack;
-
 const App = () => {
-  const accessToken = true;
+  const accessToken = false;
 
   const renderAppStackScreens = () => {
     if (accessToken) {
-      return <Screen name={AUTHORIZED_STACK} component={AuthorizedStack} />;
+      return (
+        <AppStack.Screen name={AUTHORIZED_STACK} component={AuthorizedStack} />
+      );
     }
-    return <Screen name={UNAUTHORIZED_STACK} component={UnauthorizedStack} />;
+    return (
+      <AppStack.Screen
+        name={UNAUTHORIZED_STACK}
+        component={UnauthorizedStack}
+      />
+    );
   };
 
   return (
     <NavigationContainer>
-      <Navigator screenOptions={DefaultScreenOptions}>
+      <AppStack.Navigator screenOptions={DefaultScreenOptions}>
         {renderAppStackScreens()}
-      </Navigator>
+      </AppStack.Navigator>
     </NavigationContainer>
   );
 };

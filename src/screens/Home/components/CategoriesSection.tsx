@@ -12,12 +12,12 @@ import EntypoIcon from 'react-native-vector-icons/Entypo';
 import { IC_COLDBREW, IC_ESPRESSO, IC_ITEM } from '../../../assets';
 import {
   DEFAULT_SHADOW_SETTINGS,
-  NAME_PAGES,
   SCREEN_MARGIN_HORIZONTAL,
 } from '../../../configs/App';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import { useNavigation } from '@react-navigation/native';
-import { AllScreenNavigationProp } from '../../../configs/Navigation';
+import { AuthorizedNavigationProp } from '../../../configs/Navigation';
+import { DETAIL } from '../../../navigation/HomeStack';
 
 const CategoriesSection = () => {
   const Menu = [
@@ -26,7 +26,7 @@ const CategoriesSection = () => {
     { id: '3', name: 'Espresso', icon: <Image source={IC_ESPRESSO} /> },
   ];
   const [selected, setSelected] = useState(Menu[0].id);
-  const navigation = useNavigation<AllScreenNavigationProp>();
+  const navigation = useNavigation<AuthorizedNavigationProp>();
 
   return (
     <>
@@ -62,8 +62,7 @@ const CategoriesSection = () => {
       <View style={styles.card}>
         {[1, 2, 3].map(i => (
           <ShadowView style={styles.shadow} key={i}>
-            <TouchableOpacity
-              onPress={() => navigation.navigate(NAME_PAGES.Detail)}>
+            <TouchableOpacity onPress={() => navigation.navigate(DETAIL)}>
               <View style={styles.container1}>
                 <Image source={IC_ITEM} style={styles.image} />
                 <Text style={[styles.name, styles.title]}>Cappuchino</Text>
@@ -88,8 +87,8 @@ const CategoriesSection = () => {
 
 const styles = StyleSheet.create({
   heading: {
-    fontSize: 18,
-    fontWeight: '500',
+    fontSize: 22,
+    fontWeight: '600',
     marginHorizontal: SCREEN_MARGIN_HORIZONTAL,
     marginBottom: 10,
     marginTop: 20,
