@@ -12,6 +12,8 @@ import { HEADER_HEIGHT, SCREEN_MARGIN_HORIZONTAL } from '../configs/App';
 import ShadowView from 'react-native-simple-shadow-view';
 import { IC_AVATAR } from '../assets';
 import { useNavigation } from '@react-navigation/native';
+import { PERSON } from '../navigation/AuthorizedTab';
+import { AuthorizedNavigationProp } from '../configs/Navigation';
 
 type Props = {
   title?: string;
@@ -20,7 +22,7 @@ type Props = {
 };
 
 const Header = ({ user, canBack, title }: Props) => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<AuthorizedNavigationProp>();
 
   return (
     <ShadowView>
@@ -45,9 +47,11 @@ const Header = ({ user, canBack, title }: Props) => {
           </View>
         )}
         {user && (
-          <View style={styles.titleContainer}>
+          <TouchableOpacity
+            style={styles.titleContainer}
+            onPress={() => navigation.navigate(PERSON)}>
             <Image source={IC_AVATAR} style={styles.avatar} />
-          </View>
+          </TouchableOpacity>
         )}
       </SafeAreaView>
     </ShadowView>

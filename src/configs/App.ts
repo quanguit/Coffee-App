@@ -3,6 +3,7 @@ import { KeyboardAwareScrollViewProps } from 'react-native-keyboard-aware-scroll
 
 export const SCREEN_MARGIN_HORIZONTAL = 24;
 export const HEADER_HEIGHT = 84;
+export const PASSWORD_MIN_LENGTH = 6;
 
 export const DEFAULT_SHADOW_SETTINGS: ViewStyle = {
   shadowColor: '#000000',

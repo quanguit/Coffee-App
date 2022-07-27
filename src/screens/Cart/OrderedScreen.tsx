@@ -7,7 +7,6 @@ import { useNavigation } from '@react-navigation/native';
 import { AuthorizedNavigationProp } from '../../configs/Navigation';
 import { HOME } from '../../navigation/AuthorizedTab';
 
-// === lam chuc nang sau khi navigate den home thi chi quay tro lai page cart chu khong phai ordered
 const OrderedScreen = () => {
   const navigation = useNavigation<AuthorizedNavigationProp>();
 

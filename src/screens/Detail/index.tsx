@@ -6,12 +6,13 @@ import Header from '../../components/Header';
 import SearchBar from '../../components/SearchBar';
 import { SCREEN_MARGIN_HORIZONTAL } from '../../configs/App';
 
+const Size = [
+  { id: '1', name: 'Small' },
+  { id: '2', name: 'Medium' },
+  { id: '3', name: 'Large' },
+];
+
 const DetailScreen = () => {
-  const Size = [
-    { id: '1', name: 'Small' },
-    { id: '2', name: 'Medium' },
-    { id: '3', name: 'Large' },
-  ];
   const [selected, setSelected] = useState(Size[0].id);
 
   return (

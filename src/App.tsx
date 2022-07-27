@@ -10,7 +10,7 @@ import UnauthorizedStack, {
 import { DefaultScreenOptions } from './configs/Navigation';
 
 const App = () => {
-  const accessToken = false;
+  const accessToken = true;
 
   const renderAppStackScreens = () => {
     if (accessToken) {

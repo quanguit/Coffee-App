@@ -30,10 +30,11 @@ const styles = StyleSheet.create({
     position: 'relative',
   },
   input: {
-    width: '100%',
+    maxWidth: 250,
     height: '100%',
     fontSize: 16,
     marginLeft: 70,
+    borderRadius: 25,
   },
   icon: {
     position: 'absolute',

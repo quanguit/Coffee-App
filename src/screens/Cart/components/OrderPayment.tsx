@@ -52,7 +52,7 @@ const OrderPayment = ({ toggleModal }: Props) => {
                 </Text>
                 <Text style={{ color: '#00183338' }}>Assist Philippines</Text>
               </View>
-              <View style={{ justifyContent: 'center' }}>
+              <View style={{ justifyContent: 'center', marginLeft: 52 }}>
                 <Image source={LOGO_ASSIST} />
               </View>
             </View>
@@ -139,7 +139,6 @@ const styles = StyleSheet.create({
     marginVertical: 16,
   },
   paymentItem: {
-    flex: 1,
     flexDirection: 'row',
     paddingLeft: 16,
   },
@@ -150,6 +149,7 @@ const styles = StyleSheet.create({
   imageSection: {
     flexDirection: 'row',
     alignItems: 'center',
+    marginLeft: 52,
   },
   total: {
     width: '100%',

@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, TouchableOpacity, View, Image } from 'react-native';
+import { StyleSheet, Text, View, Image } from 'react-native';
 import ShadowView from 'react-native-simple-shadow-view';
 import { BANNER_COUPON } from '../../../assets';
 import {
@@ -13,11 +13,9 @@ const AdvertisementSection = () => {
       <Text style={styles.heading}>Special Offer!</Text>
       <View style={styles.bannerContainer}>
         <ShadowView style={styles.shadow}>
-          <TouchableOpacity
-            onPress={() => console.log('ye')}
-            style={{ padding: 15 }}>
+          <View style={{ padding: 15 }}>
             <Image source={BANNER_COUPON} style={styles.banner} />
-          </TouchableOpacity>
+          </View>
         </ShadowView>
       </View>
     </View>

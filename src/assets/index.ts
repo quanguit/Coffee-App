@@ -15,5 +15,7 @@ export const IC_PHONENUMBER = require('./ic_phonenumber.png');
 export const IC_LOCATION = require('./ic_location.png');
 export const IC_PASSWORD = require('./ic_password.png');
 export const IC_ORDERED = require('./ic_ordered.png');
+export const IC_VISIBILITY = require('./ic_visibility.png');
+export const IC_INVISIBILITY = require('./ic_invisibility.png');
 export const MAIN_LOGO = require('./main_logo.png');
 export const MAIN_BG = require('./main_background.png');
