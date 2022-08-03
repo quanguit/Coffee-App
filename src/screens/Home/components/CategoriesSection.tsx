@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Image,
   ScrollView,
@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import ShadowView from 'react-native-simple-shadow-view';
 import EntypoIcon from 'react-native-vector-icons/Entypo';
-import { IC_COLDBREW, IC_ESPRESSO, IC_ITEM } from '../../../assets';
+import { IC_COLDBREW, IC_ESPRESSO } from '../../../assets';
 import {
   DEFAULT_SHADOW_SETTINGS,
   SCREEN_MARGIN_HORIZONTAL,
@@ -18,19 +18,46 @@ import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import { useNavigation } from '@react-navigation/native';
 import { AuthorizedNavigationProp } from '../../../configs/Navigation';
 import { DETAIL } from '../../../navigation/HomeStack';
+import firestore from '@react-native-firebase/firestore';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import { ItemProps } from '../types';
+import { useTheme } from '../../../context/Theme';
+
+const Menu = [
+  { id: '1', name: 'Coffee', icon: <FontAwesomeIcon name="coffee" /> },
+  { id: '2', name: 'Tea', icon: <Image source={IC_COLDBREW} /> },
+  { id: '3', name: 'Iced Blended', icon: <Image source={IC_ESPRESSO} /> },
+  {
+    id: '4',
+    name: 'Cake',
+    icon: <MaterialCommunityIcons name="cupcake" size={15} />,
+  },
+];
 
 const CategoriesSection = () => {
-  const Menu = [
-    { id: '1', name: 'Cappuchino', icon: <FontAwesomeIcon name="coffee" /> },
-    { id: '2', name: 'Cold Brew', icon: <Image source={IC_COLDBREW} /> },
-    { id: '3', name: 'Espresso', icon: <Image source={IC_ESPRESSO} /> },
-  ];
   const [selected, setSelected] = useState(Menu[0].id);
   const navigation = useNavigation<AuthorizedNavigationProp>();
+  const [items, setItems] = useState<ItemProps[]>([]);
+  const { colors } = useTheme();
+
+  const getAllItems = async () => {
+    const getItems = await firestore().collection('collection').get();
+    const convertDataToDocs = getItems.docs;
+    const convertDataToArray = convertDataToDocs.map(
+      it => it.data() as ItemProps,
+    );
+    setItems(convertDataToArray);
+  };
+
+  useEffect(() => {
+    getAllItems();
+  }, []);
 
   return (
     <>
-      <Text style={styles.heading}>Categories</Text>
+      <Text style={[styles.heading, { color: colors.primaryText }]}>
+        Categories
+      </Text>
       <View style={styles.menu}>
         <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
           {Menu.map((mn, index) => (
@@ -45,7 +72,7 @@ const CategoriesSection = () => {
               key={mn.id}
               onPress={() => setSelected(mn.id)}>
               <View style={styles.menuItem}>
-                <View style={{ marginRight: 5 }}>{mn.icon}</View>
+                <View style={{ marginRight: 8 }}>{mn.icon}</View>
                 <Text
                   style={[
                     styles.text,
@@ -60,26 +87,35 @@ const CategoriesSection = () => {
       </View>
 
       <View style={styles.card}>
-        {[1, 2, 3].map(i => (
-          <ShadowView style={styles.shadow} key={i}>
-            <TouchableOpacity onPress={() => navigation.navigate(DETAIL)}>
-              <View style={styles.container1}>
-                <Image source={IC_ITEM} style={styles.image} />
-                <Text style={[styles.name, styles.title]}>Cappuchino</Text>
-                <View style={styles.bottomCard}>
-                  <Text style={styles.name}>$4.99</Text>
-                  <TouchableOpacity>
-                    <EntypoIcon
-                      name="circle-with-plus"
-                      size={30}
-                      style={styles.bottomIcon}
+        {items.map(
+          (item: ItemProps) =>
+            item.cate_id == selected && (
+              <ShadowView style={styles.shadow} key={item.id}>
+                <View style={styles.container_detail}>
+                  <TouchableOpacity
+                    onPress={() =>
+                      navigation.navigate(DETAIL, { itemId: item.id })
+                    }>
+                    <Image
+                      source={{ uri: item.imageUrl }}
+                      style={styles.image}
                     />
                   </TouchableOpacity>
+                  <Text style={[styles.name, styles.title]}>{item.name}</Text>
+                  <View style={styles.bottomCard}>
+                    <Text style={styles.name}>$ {item.sizes[0].price}</Text>
+                    <TouchableOpacity>
+                      <EntypoIcon
+                        name="circle-with-plus"
+                        size={30}
+                        style={styles.bottomIcon}
+                      />
+                    </TouchableOpacity>
+                  </View>
                 </View>
-              </View>
-            </TouchableOpacity>
-          </ShadowView>
-        ))}
+              </ShadowView>
+            ),
+        )}
       </View>
     </>
   );
@@ -100,11 +136,13 @@ const styles = StyleSheet.create({
   item: {
     backgroundColor: '#754C24',
     borderRadius: 30,
-    padding: 10,
+    paddingHorizontal: 16,
+    paddingVertical: 12,
   },
   menuItem: {
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'center',
   },
   text: {
     color: 'white',
@@ -123,30 +161,30 @@ const styles = StyleSheet.create({
       height: 1,
     },
     shadowRadius: 3,
-    borderRadius: 20,
+    borderRadius: 16,
     marginTop: 20,
     backgroundColor: 'white',
   },
   image: {
     width: 120,
     height: 120,
+    borderRadius: 16,
   },
-  container1: {
+  container_detail: {
     width: 160,
     height: 220,
-    borderRadius: 20,
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'column',
   },
   title: {
-    paddingLeft: 18,
+    paddingHorizontal: 18,
     width: '100%',
   },
   name: {
     fontWeight: '500',
     marginTop: 10,
-    fontSize: 16,
+    fontSize: 14,
   },
   bottomCard: {
     flexDirection: 'row',

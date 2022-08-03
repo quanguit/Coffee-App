@@ -8,9 +8,10 @@ import UnauthorizedStack, {
   UNAUTHORIZED_STACK,
 } from './navigation/UnauthorizedStack';
 import { DefaultScreenOptions } from './configs/Navigation';
+import ThemeProvider from './context/Theme';
 
 const App = () => {
-  const accessToken = true;
+  const accessToken = false;
 
   const renderAppStackScreens = () => {
     if (accessToken) {
@@ -27,11 +28,13 @@ const App = () => {
   };
 
   return (
-    <NavigationContainer>
-      <AppStack.Navigator screenOptions={DefaultScreenOptions}>
-        {renderAppStackScreens()}
-      </AppStack.Navigator>
-    </NavigationContainer>
+    <ThemeProvider>
+      <NavigationContainer>
+        <AppStack.Navigator screenOptions={DefaultScreenOptions}>
+          {renderAppStackScreens()}
+        </AppStack.Navigator>
+      </NavigationContainer>
+    </ThemeProvider>
   );
 };
 

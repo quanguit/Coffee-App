@@ -8,6 +8,7 @@ import CartItem from './components/CartItem';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import OrderPayment from './components/OrderPayment';
 import Modal from 'react-native-modal';
+import { useTheme } from '../../context/Theme';
 
 const CartScreen = () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -28,15 +29,19 @@ const CartScreen = () => {
     },
   ]);
   const [isModalVisible, setModalVisible] = useState(false);
+  const { colors } = useTheme();
 
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
   };
 
   return (
-    <View style={styles.container}>
+    <View
+      style={[styles.container, { backgroundColor: colors.primaryBackground }]}>
       <Header canBack />
-      <Text style={styles.heading}>My order</Text>
+      <Text style={[styles.heading, { color: colors.primaryText }]}>
+        My order
+      </Text>
       <ScrollView showsVerticalScrollIndicator={false}>
         {data.map(item => (
           <CartItem
@@ -50,8 +55,12 @@ const CartScreen = () => {
 
         <View style={styles.payment}>
           <View style={styles.content}>
-            <Text style={styles.titlePrice}>Total Price</Text>
-            <Text style={styles.price}>$16.98</Text>
+            <Text style={[styles.titlePrice, { color: colors.primaryText }]}>
+              Total Price
+            </Text>
+            <Text style={[styles.price, { color: colors.primaryText }]}>
+              $16.98
+            </Text>
           </View>
           <Button
             label="Buy"
@@ -85,7 +94,6 @@ const CartScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white',
   },
   heading: {
     fontSize: 22,
@@ -103,8 +111,8 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
   },
   titlePrice: {
-    color: 'black',
     marginBottom: 10,
+    fontSize: 15,
   },
   price: {
     fontSize: 22,

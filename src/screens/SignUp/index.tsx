@@ -24,6 +24,7 @@ import {
   UnauthorizedStackParamList,
 } from '../../navigation/UnauthorizedStack';
 import * as Yup from 'yup';
+import { useTheme } from '../../context/Theme';
 
 type Props = {
   navigation: NativeStackNavigationProp<UnauthorizedStackParamList>;
@@ -41,9 +42,11 @@ type Formvalues = {
 const SignUpScreen = ({ navigation }: Props) => {
   const formRef = useRef<FormikProps<Formvalues>>(null);
   const [validateOnChange, setValidateOnChange] = useState(false);
+  const { colors } = useTheme();
 
   return (
-    <View style={styles.container}>
+    <View
+      style={[styles.container, { backgroundColor: colors.primaryBackground }]}>
       <Header canBack />
       <ScrollView showsVerticalScrollIndicator={false}>
         <Text style={styles.heading}>Sign up</Text>

@@ -6,11 +6,16 @@ import {
   DEFAULT_SHADOW_SETTINGS,
   SCREEN_MARGIN_HORIZONTAL,
 } from '../../../configs/App';
+import { useTheme } from '../../../context/Theme';
 
 const AdvertisementSection = () => {
+  const { colors } = useTheme();
+
   return (
     <View>
-      <Text style={styles.heading}>Special Offer!</Text>
+      <Text style={[styles.heading, { color: colors.primaryText }]}>
+        Special Offer!
+      </Text>
       <View style={styles.bannerContainer}>
         <ShadowView style={styles.shadow}>
           <View style={{ padding: 15 }}>

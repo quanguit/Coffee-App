@@ -14,24 +14,29 @@ import { IC_AVATAR } from '../assets';
 import { useNavigation } from '@react-navigation/native';
 import { PERSON } from '../navigation/AuthorizedTab';
 import { AuthorizedNavigationProp } from '../configs/Navigation';
+import { useTheme } from '../context/Theme';
+import EntypoIcon from 'react-native-vector-icons/Entypo';
+import Fontisto from 'react-native-vector-icons/Fontisto';
 
 type Props = {
   title?: string;
   user?: boolean;
   canBack?: boolean;
+  canChangeTheme?: boolean;
 };
 
-const Header = ({ user, canBack, title }: Props) => {
+const Header = ({ user, canBack, title, canChangeTheme }: Props) => {
   const navigation = useNavigation<AuthorizedNavigationProp>();
+  const { isDark, colors, changeTheme } = useTheme();
 
   return (
-    <ShadowView>
+    <ShadowView style={{ backgroundColor: colors.primaryBackground }}>
       <SafeAreaView style={styles.container}>
         {canBack && (
           <TouchableOpacity
             onPress={() => navigation.goBack()}
             style={styles.backButton}>
-            <Ionicon name="arrow-back" size={25} />
+            <Ionicon name="arrow-back" size={25} color={colors.primaryText} />
           </TouchableOpacity>
         )}
         {title && (
@@ -41,6 +46,7 @@ const Header = ({ user, canBack, title }: Props) => {
                 styles.title,
                 { marginRight: canBack && !user ? 70 : 0 },
                 { marginLeft: !canBack && user ? 70 : 0 },
+                { color: colors.primaryText },
               ]}>
               {title}
             </Text>
@@ -53,6 +59,23 @@ const Header = ({ user, canBack, title }: Props) => {
             <Image source={IC_AVATAR} style={styles.avatar} />
           </TouchableOpacity>
         )}
+        {canChangeTheme && (
+          <TouchableOpacity
+            onPress={changeTheme}
+            style={[
+              styles.changeIcon,
+              {
+                backgroundColor: colors.primaryBackground,
+                shadowColor: colors.primaryText,
+              },
+            ]}>
+            {isDark ? (
+              <EntypoIcon name="light-down" size={27} />
+            ) : (
+              <Fontisto name="night-clear" size={15} />
+            )}
+          </TouchableOpacity>
+        )}
       </SafeAreaView>
     </ShadowView>
   );
@@ -60,6 +83,7 @@ const Header = ({ user, canBack, title }: Props) => {
 
 const styles = StyleSheet.create({
   container: {
+    position: 'relative',
     height: HEADER_HEIGHT,
     width: '100%',
     alignItems: 'center',
@@ -72,6 +96,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginRight: SCREEN_MARGIN_HORIZONTAL - 12,
     marginLeft: 'auto',
+    borderWidth: 1,
+    borderRadius: 50,
+    borderColor: '#333333',
   },
   title: {
     fontSize: 20,
@@ -88,7 +115,23 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
     borderRadius: 50,
-    marginRight: 'auto',
+  },
+  changeIcon: {
+    width: 40,
+    height: 40,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 1,
+    borderRadius: 10,
+    marginRight: SCREEN_MARGIN_HORIZONTAL - 12,
+    position: 'absolute',
+    right: 0,
+    bottom: 4,
+    shadowOffset: {
+      width: 0,
+      height: 0,
+    },
+    shadowOpacity: 1,
   },
 });
 

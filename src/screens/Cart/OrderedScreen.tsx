@@ -6,25 +6,30 @@ import AntDesignIcon from 'react-native-vector-icons/AntDesign';
 import { useNavigation } from '@react-navigation/native';
 import { AuthorizedNavigationProp } from '../../configs/Navigation';
 import { HOME } from '../../navigation/AuthorizedTab';
+import { useTheme } from '../../context/Theme';
 
 const OrderedScreen = () => {
   const navigation = useNavigation<AuthorizedNavigationProp>();
+  const { colors } = useTheme();
 
   return (
-    <View style={styles.container}>
+    <View
+      style={[styles.container, { backgroundColor: colors.primaryBackground }]}>
       <View style={styles.common}>
         <View style={styles.image}>
           <Image source={IC_ORDERED} />
         </View>
-        <Text style={styles.heading}>Ordered</Text>
-        <Text style={styles.notice1}>
+        <Text style={[styles.heading, { color: colors.primaryText }]}>
+          Ordered
+        </Text>
+        <Text style={[styles.notice1, { color: colors.primaryText }]}>
           Patrick, your order has been successfully placed.
         </Text>
-        <Text style={styles.notice2}>
+        <Text style={[styles.notice2, { color: colors.primaryText }]}>
           The order will be ready today {'\n'} to 18:10 at the address {'\n'}
           Cebu City
         </Text>
-        <Text style={styles.notice1}>
+        <Text style={[styles.notice1, { color: colors.primaryText }]}>
           Submit your personal QR code {'\n'} at a coffee shop to receive an
           order.
         </Text>

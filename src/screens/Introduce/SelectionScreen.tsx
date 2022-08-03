@@ -8,14 +8,18 @@ import {
   SIGN_UP,
   UnauthorizedStackParamList,
 } from '../../navigation/UnauthorizedStack';
+import { useTheme } from '../../context/Theme';
 
 type Props = {
   navigation: NativeStackNavigationProp<UnauthorizedStackParamList>;
 };
 
 const SelectionScreen = ({ navigation }: Props) => {
+  const { colors } = useTheme();
+
   return (
-    <View style={styles.container}>
+    <View
+      style={[styles.container, { backgroundColor: colors.primaryBackground }]}>
       <Header canBack />
       <View style={styles.main}>
         <Text style={styles.text}>Select an option</Text>

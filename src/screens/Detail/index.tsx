@@ -1,67 +1,104 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { RouteProp, useRoute } from '@react-navigation/native';
 import { Text, View, StyleSheet, Image, TouchableOpacity } from 'react-native';
-import { IC_BG_ITEM } from '../../assets';
 import Button from '../../components/Button';
 import Header from '../../components/Header';
 import SearchBar from '../../components/SearchBar';
 import { SCREEN_MARGIN_HORIZONTAL } from '../../configs/App';
-
-const Size = [
-  { id: '1', name: 'Small' },
-  { id: '2', name: 'Medium' },
-  { id: '3', name: 'Large' },
-];
+import { HomeStackParamList } from '../../navigation/AuthorizedTab';
+import firestore from '@react-native-firebase/firestore';
+import { ItemProps } from '../Home/types';
+import { useTheme } from '../../context/Theme';
 
 const DetailScreen = () => {
-  const [selected, setSelected] = useState(Size[0].id);
+  const route = useRoute<RouteProp<HomeStackParamList>>();
+  const { itemId } = route.params;
+  const { colors } = useTheme();
+  const [item, setItem] = useState<ItemProps | null>(null);
+  const [selectedSize, setSelectedSize] = useState('');
+  const [price, setPrice] = useState(0);
+
+  const getDetailItem = async () => {
+    const getItem = await firestore()
+      .collection('collection')
+      .where('id', '==', itemId)
+      .get();
+    const convertDataToDocs = getItem.docs;
+    const convertDataToArray = convertDataToDocs.map(
+      it => it.data() as ItemProps,
+    );
+    setItem(convertDataToArray[0]);
+    setSelectedSize(convertDataToArray[0].sizes[0].size);
+    setPrice(convertDataToArray[0].sizes[0].price);
+  };
+
+  useEffect(() => {
+    getDetailItem();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const checkFullSize = () => {
+    if (item?.sizes.length === 3) {
+      return true;
+    }
+    return false;
+  };
 
   return (
-    <View style={styles.container}>
+    <View
+      style={[styles.container, { backgroundColor: colors.primaryBackground }]}>
       <Header canBack user />
       <SearchBar />
       <View style={styles.detailItem}>
         <View style={styles.backgroundItem}>
-          <Image source={IC_BG_ITEM} style={styles.image} />
+          <Image source={{ uri: item?.imageUrl }} style={styles.image} />
         </View>
         <View style={styles.inforItem}>
-          <Text style={styles.title}>Cappuchino</Text>
+          <Text style={styles.title}>{item?.name}</Text>
           <View style={styles.content}>
-            <Text style={styles.heading}>Coffee Size</Text>
-            <View style={styles.menu}>
-              {Size.map((sz, index) => (
+            <Text style={styles.heading}>Size</Text>
+            <View
+              style={[
+                styles.menu,
+                {
+                  justifyContent: checkFullSize()
+                    ? 'space-between'
+                    : 'space-evenly',
+                },
+              ]}>
+              {item?.sizes.map(sz => (
                 <TouchableOpacity
                   style={[
                     styles.item,
                     {
-                      marginLeft: index === 0 ? 0 : 10,
                       backgroundColor:
-                        sz.id === selected ? '#754C24' : '#F5F5F5',
+                        sz.size === selectedSize ? '#754C24' : '#F5F5F5',
                     },
                   ]}
-                  key={sz.id}
-                  onPress={() => setSelected(sz.id)}>
+                  key={sz.size}
+                  onPress={() => {
+                    setSelectedSize(sz.size);
+                    setPrice(sz.price);
+                  }}>
                   <View style={styles.menuItem}>
                     <Text
                       style={[
                         styles.text,
-                        { color: sz.id === selected ? '#FFFFFF' : '#000000' },
+                        {
+                          color:
+                            sz.size === selectedSize ? '#FFFFFF' : '#000000',
+                        },
                       ]}>
-                      {sz.name}
+                      {sz.size}
                     </Text>
                   </View>
                 </TouchableOpacity>
               ))}
             </View>
-            <Text style={[styles.heading, { fontSize: 17 }]}>About</Text>
-            <Text style={styles.description}>
-              Cappuccino is a coffee-based drink made primarily from espresso
-              and milk. It consists of one-third heated milk and one-third milk
-              foam and is generally served in... Read more
-            </Text>
             <Button
               wrapperStyle={styles.btn}
               style={styles.styleBtn}
-              label={`Add to cart | $${6.99}`}
+              label={`Add to cart   |   $${price}`}
               borderColor="#754C24"
               backgroundColor="#754C24"
             />
@@ -91,26 +128,24 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   title: {
-    color: 'white',
     fontSize: 30,
     marginHorizontal: SCREEN_MARGIN_HORIZONTAL,
-    marginBottom: 16,
+    marginBottom: 8,
     fontWeight: '500',
   },
   image: {
     width: '100%',
-    height: 300,
+    height: 350,
   },
   content: {
     backgroundColor: 'white',
     borderTopLeftRadius: 40,
     borderTopRightRadius: 40,
-    height: 330,
+    height: 180,
     position: 'relative',
   },
   menu: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
     marginHorizontal: SCREEN_MARGIN_HORIZONTAL,
   },
   heading: {
@@ -121,10 +156,10 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   item: {
+    width: '30%',
     backgroundColor: '#754C24',
     borderRadius: 30,
     padding: 10,
-    width: '30%',
   },
   menuItem: {
     flexDirection: 'row',
@@ -135,12 +170,6 @@ const styles = StyleSheet.create({
     color: 'white',
     fontWeight: '700',
     fontSize: 15,
-  },
-  description: {
-    fontWeight: '500',
-    marginHorizontal: SCREEN_MARGIN_HORIZONTAL,
-    lineHeight: 25,
-    marginBottom: 8,
   },
   btn: {
     position: 'absolute',

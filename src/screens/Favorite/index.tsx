@@ -3,6 +3,7 @@ import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { IMAGE_ITEM_FAVOR } from '../../assets';
 import Header from '../../components/Header';
 import { SCREEN_MARGIN_HORIZONTAL } from '../../configs/App';
+import { useTheme } from '../../context/Theme';
 import FavoriteItem from './components/FavoriteItem';
 
 const FavoriteScreen = () => {
@@ -14,12 +15,21 @@ const FavoriteScreen = () => {
     { id: '3', title: 'Americano', image: IMAGE_ITEM_FAVOR },
     { id: '4', title: 'Americano', image: IMAGE_ITEM_FAVOR },
   ]);
+  const { isDark, colors } = useTheme();
 
   return (
-    <View style={styles.container}>
+    <View
+      style={[styles.container, { backgroundColor: colors.primaryBackground }]}>
       <Header user canBack />
-      <Text style={styles.heading}>Favorites</Text>
-      <ScrollView showsVerticalScrollIndicator={false} style={styles.section}>
+      <Text style={[styles.heading, { color: colors.primaryText }]}>
+        Favorites
+      </Text>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        style={[
+          styles.section,
+          { backgroundColor: isDark ? '#205375' : '#1C140F' },
+        ]}>
         <Text style={styles.content}>Select your coffee</Text>
         <View style={styles.favorItems}>
           {data.map(item => (
@@ -53,7 +63,6 @@ const styles = StyleSheet.create({
     flex: 1,
     width: '100%',
     height: '100%',
-    backgroundColor: '#1C140F',
     borderTopLeftRadius: 40,
     borderTopRightRadius: 40,
   },

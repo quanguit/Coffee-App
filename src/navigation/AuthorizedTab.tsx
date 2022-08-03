@@ -77,7 +77,7 @@ export type AuthorizedTabParamList = {
 };
 
 export type HomeStackParamList = {
-  [DETAIL]: undefined;
+  [DETAIL]: { itemId: string };
 };
 
 export type CartStackParamList = {

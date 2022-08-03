@@ -8,14 +8,18 @@ import {
   SELECTION,
   UnauthorizedStackParamList,
 } from '../../navigation/UnauthorizedStack';
+import { useTheme } from '../../context/Theme';
 
 type Props = {
   navigation: NativeStackNavigationProp<UnauthorizedStackParamList>;
 };
 
 const IntroduceScreen = ({ navigation }: Props) => {
+  const { colors } = useTheme();
+
   return (
-    <View style={styles.container}>
+    <View
+      style={[styles.container, { backgroundColor: colors.primaryBackground }]}>
       <ImageBackground
         source={MAIN_BG}
         resizeMode="cover"

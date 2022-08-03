@@ -19,6 +19,7 @@ import {
 } from '../../navigation/UnauthorizedStack';
 import AntDesignIcon from 'react-native-vector-icons/AntDesign';
 import * as Yup from 'yup';
+import { useTheme } from '../../context/Theme';
 
 type Props = {
   navigation: NativeStackNavigationProp<UnauthorizedStackParamList>;
@@ -32,9 +33,11 @@ type FormValues = {
 const SignInScreen = ({ navigation }: Props) => {
   const formRef = useRef<FormikProps<FormValues>>(null);
   const [validateOnChange, setValidateOnChange] = useState(false);
+  const { colors } = useTheme();
 
   return (
-    <View style={styles.container}>
+    <View
+      style={[styles.container, { backgroundColor: colors.primaryBackground }]}>
       <Header canBack />
       <ScrollView showsVerticalScrollIndicator={false}>
         <Text style={styles.heading}>Sign in</Text>

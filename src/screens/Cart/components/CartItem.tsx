@@ -2,6 +2,7 @@ import React from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { DEFAULT_SHADOW_SETTINGS } from '../../../configs/App';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
+import { useTheme } from '../../../context/Theme';
 
 type Props = {
   title: string;
@@ -11,6 +12,8 @@ type Props = {
 };
 
 const CartItem = ({ title, image, price, quantity }: Props) => {
+  const { isDark } = useTheme();
+
   return (
     <View style={styles.container}>
       <View style={styles.item}>
@@ -21,8 +24,16 @@ const CartItem = ({ title, image, price, quantity }: Props) => {
         </View>
         <Text style={styles.price}>${price}</Text>
       </View>
-      <TouchableOpacity style={styles.icon}>
-        <SimpleLineIcons name="trash" color="red" size={25} />
+      <TouchableOpacity
+        style={[
+          styles.icon,
+          { backgroundColor: isDark ? '#FFFFFF' : '#FFE5E5' },
+        ]}>
+        <SimpleLineIcons
+          name="trash"
+          color={isDark ? '#333333' : '#FF6057'}
+          size={25}
+        />
       </TouchableOpacity>
     </View>
   );
@@ -54,6 +65,7 @@ const styles = StyleSheet.create({
   title: {
     fontWeight: '500',
     fontSize: 16,
+    color: '#333333',
   },
   content: {
     marginLeft: 10,
@@ -68,7 +80,6 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   icon: {
-    backgroundColor: '#FFE5E5',
     width: 50,
     height: 80,
     justifyContent: 'center',
