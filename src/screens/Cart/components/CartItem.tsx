@@ -3,28 +3,47 @@ import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { DEFAULT_SHADOW_SETTINGS } from '../../../configs/App';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 import { useTheme } from '../../../context/Theme';
+import { useItem } from '../../../context/Item';
 
 type Props = {
+  id: string;
   title: string;
-  image: number;
+  image: string;
   price: number;
   quantity: number;
+  size: string;
 };
 
-const CartItem = ({ title, image, price, quantity }: Props) => {
+const typeSize = [
+  { label: 'S', value: 'Small' },
+  { label: 'M', value: 'Medium' },
+  { label: 'L', value: 'Large' },
+];
+
+const CartItem = ({ id, title, image, price, quantity, size }: Props) => {
   const { isDark } = useTheme();
+  const { removeItem } = useItem();
+
+  const convertSize = (sizee: string) => {
+    let temp = typeSize.find(obj => obj.value === sizee);
+    return temp?.label;
+  };
 
   return (
     <View style={styles.container}>
       <View style={styles.item}>
-        <Image source={image} style={styles.image} />
+        <Image source={{ uri: image }} style={styles.image} />
         <View style={styles.content}>
-          <Text style={[styles.title, { marginBottom: 5 }]}>{title}</Text>
+          <Text style={styles.title}>{title}</Text>
+          <Text style={[styles.title, { marginVertical: 5 }]}>
+            Size: {convertSize(size)}
+          </Text>
           <Text style={styles.title}>x {quantity}</Text>
         </View>
         <Text style={styles.price}>${price}</Text>
       </View>
       <TouchableOpacity
+        onPress={() => removeItem(id, size)}
         style={[
           styles.icon,
           { backgroundColor: isDark ? '#FFFFFF' : '#FFE5E5' },

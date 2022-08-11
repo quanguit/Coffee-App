@@ -20,8 +20,8 @@ import { AuthorizedNavigationProp } from '../../../configs/Navigation';
 import { DETAIL } from '../../../navigation/HomeStack';
 import firestore from '@react-native-firebase/firestore';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import { ItemProps } from '../types';
 import { useTheme } from '../../../context/Theme';
+import { ItemOptionProps } from '../../../context/Item/index.type';
 
 const Menu = [
   { id: '1', name: 'Coffee', icon: <FontAwesomeIcon name="coffee" /> },
@@ -37,14 +37,14 @@ const Menu = [
 const CategoriesSection = () => {
   const [selected, setSelected] = useState(Menu[0].id);
   const navigation = useNavigation<AuthorizedNavigationProp>();
-  const [items, setItems] = useState<ItemProps[]>([]);
+  const [items, setItems] = useState<ItemOptionProps[]>([]);
   const { colors } = useTheme();
 
   const getAllItems = async () => {
     const getItems = await firestore().collection('collection').get();
     const convertDataToDocs = getItems.docs;
     const convertDataToArray = convertDataToDocs.map(
-      it => it.data() as ItemProps,
+      it => it.data() as ItemOptionProps,
     );
     setItems(convertDataToArray);
   };
@@ -88,7 +88,7 @@ const CategoriesSection = () => {
 
       <View style={styles.card}>
         {items.map(
-          (item: ItemProps) =>
+          (item: ItemOptionProps) =>
             item.cate_id == selected && (
               <ShadowView style={styles.shadow} key={item.id}>
                 <View style={styles.container_detail}>
@@ -104,7 +104,10 @@ const CategoriesSection = () => {
                   <Text style={[styles.name, styles.title]}>{item.name}</Text>
                   <View style={styles.bottomCard}>
                     <Text style={styles.name}>$ {item.sizes[0].price}</Text>
-                    <TouchableOpacity>
+                    <TouchableOpacity
+                      onPress={() =>
+                        navigation.navigate(DETAIL, { itemId: item.id })
+                      }>
                       <EntypoIcon
                         name="circle-with-plus"
                         size={30}
@@ -176,6 +179,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'column',
+    borderRadius: 16,
   },
   title: {
     paddingHorizontal: 18,

@@ -9,6 +9,8 @@ import AntDesignIcon from 'react-native-vector-icons/AntDesign';
 import { useNavigation } from '@react-navigation/native';
 import { AuthorizedNavigationProp } from '../../../configs/Navigation';
 import { ORDERED } from '../../../navigation/CartStack';
+import { totalPrice, totalQuantity } from '../../../context/Item/item.utils';
+import { useItem } from '../../../context/Item';
 
 type Props = {
   toggleModal: () => void;
@@ -18,9 +20,9 @@ const OrderPayment = ({ toggleModal }: Props) => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [method, setMethod] = useState('');
   const navigation = useNavigation<AuthorizedNavigationProp>();
+  const { items } = useItem();
 
   const onSelect = (index: any, value: any) => {
-    console.log(index, value);
     setMethod(value);
   };
 
@@ -40,7 +42,7 @@ const OrderPayment = ({ toggleModal }: Props) => {
         </View>
 
         <RadioGroup
-          onSelect={(index: any, value: any) => onSelect(index, value)}
+          onSelect={(index: number, value: string) => onSelect(index, value)}
           color="black"
           highlightColor="#F7F8FB"
           selectedIndex={0}>
@@ -75,14 +77,14 @@ const OrderPayment = ({ toggleModal }: Props) => {
         </RadioGroup>
 
         <View style={styles.total}>
-          <Text style={styles.title}>Amount</Text>
-          <Text style={styles.title}>$ 9.00</Text>
+          <Text style={styles.title}>Selected Quantity:</Text>
+          <Text style={styles.title}>{totalQuantity(items)}</Text>
         </View>
       </View>
       <View style={styles.payment}>
         <View style={styles.content}>
           <Text style={styles.titlePrice}>Total Price</Text>
-          <Text style={styles.price}>$16.98</Text>
+          <Text style={styles.price}>${totalPrice(items)}</Text>
         </View>
         <Button
           label="Pay Now"

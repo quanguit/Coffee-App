@@ -6,7 +6,7 @@ import MaterialIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeStack, { DETAIL, HOME_STACK } from './HomeStack';
-import CartStack, { ORDERED } from './CartStack';
+import CartStack, { CART_STACK, ORDERED } from './CartStack';
 
 const { Navigator, Screen } = createBottomTabNavigator();
 
@@ -40,7 +40,7 @@ const AuthorizedTab = () => {
         }}
       />
       <Screen
-        name={CART}
+        name={CART_STACK}
         component={CartStack}
         options={{
           tabBarIcon: ({ color }) => (

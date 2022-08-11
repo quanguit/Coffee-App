@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
-import { IMAGE_ITEM_FAVOR } from '../../assets';
 import Button from '../../components/Button';
 import Header from '../../components/Header';
 import { SCREEN_MARGIN_HORIZONTAL } from '../../configs/App';
@@ -9,26 +8,12 @@ import FeatherIcon from 'react-native-vector-icons/Feather';
 import OrderPayment from './components/OrderPayment';
 import Modal from 'react-native-modal';
 import { useTheme } from '../../context/Theme';
+import { useItem } from '../../context/Item';
+import { totalPrice } from '../../context/Item/item.utils';
 
 const CartScreen = () => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [data, setData] = useState([
-    {
-      id: '0',
-      title: 'Americano',
-      image: IMAGE_ITEM_FAVOR,
-      quantity: 1,
-      price: 5.99,
-    },
-    {
-      id: '1',
-      title: 'Americano',
-      image: IMAGE_ITEM_FAVOR,
-      quantity: 2,
-      price: 6.99,
-    },
-  ]);
   const [isModalVisible, setModalVisible] = useState(false);
+  const { items } = useItem();
   const { colors } = useTheme();
 
   const toggleModal = () => {
@@ -42,43 +27,50 @@ const CartScreen = () => {
       <Text style={[styles.heading, { color: colors.primaryText }]}>
         My order
       </Text>
-      <ScrollView showsVerticalScrollIndicator={false}>
-        {data.map(item => (
-          <CartItem
-            key={item.id}
-            title={item.title}
-            image={item.image}
-            quantity={item.quantity}
-            price={item.price}
-          />
-        ))}
-
-        <View style={styles.payment}>
-          <View style={styles.content}>
-            <Text style={[styles.titlePrice, { color: colors.primaryText }]}>
-              Total Price
-            </Text>
-            <Text style={[styles.price, { color: colors.primaryText }]}>
-              $16.98
-            </Text>
+      {items.length ? (
+        <ScrollView showsVerticalScrollIndicator={false}>
+          {items.map(item => (
+            <CartItem
+              key={`${item.id}+${item.size}`}
+              id={item.id}
+              title={item.name}
+              image={item.imageUrl}
+              quantity={item.quantity}
+              price={item.price}
+              size={item.size}
+            />
+          ))}
+          <View style={styles.payment}>
+            <View style={styles.content}>
+              <Text style={[styles.titlePrice, { color: colors.primaryText }]}>
+                Total Price
+              </Text>
+              <Text style={[styles.price, { color: colors.primaryText }]}>
+                $ {totalPrice(items)}
+              </Text>
+            </View>
+            <Button
+              label="Buy"
+              borderColor="#324A59"
+              backgroundColor="#324A59"
+              icon={
+                <FeatherIcon
+                  name="shopping-cart"
+                  size={25}
+                  color="white"
+                  style={{ marginRight: 20 }}
+                />
+              }
+              style={styles.button}
+              onPress={toggleModal}
+            />
           </View>
-          <Button
-            label="Buy"
-            borderColor="#324A59"
-            backgroundColor="#324A59"
-            icon={
-              <FeatherIcon
-                name="shopping-cart"
-                size={25}
-                color="white"
-                style={{ marginRight: 20 }}
-              />
-            }
-            style={styles.button}
-            onPress={toggleModal}
-          />
-        </View>
-      </ScrollView>
+        </ScrollView>
+      ) : (
+        <Text style={[styles.title, { color: colors.primaryText }]}>
+          You haven't ordered anything!
+        </Text>
+      )}
       <Modal
         isVisible={isModalVisible}
         swipeDirection="down"
@@ -113,6 +105,7 @@ const styles = StyleSheet.create({
   titlePrice: {
     marginBottom: 10,
     fontSize: 15,
+    fontWeight: '600',
   },
   price: {
     fontSize: 22,
@@ -125,6 +118,12 @@ const styles = StyleSheet.create({
   modal: {
     margin: 0,
     marginTop: 160,
+  },
+  title: {
+    fontSize: 16,
+    fontWeight: '600',
+    textAlign: 'center',
+    marginTop: 16,
   },
 });
 

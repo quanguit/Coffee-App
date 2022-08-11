@@ -27,13 +27,7 @@ export type ThemeType = {
     scanLogBgExpanded?: string;
     scanQRButtonLabel?: string;
     viewScanLogButtonLabel?: string;
-
-    // Gradients
-    helloUserGradient?: string[];
-    scanQRButtonGradient?: string[];
-    viewScanLogButtonGradient?: string[];
-    disabledButtonGradient?: string[];
-    characterAvatarGradient?: string[];
   };
   changeTheme: () => void;
+  setIsDark: (isDark: boolean) => void;
 };

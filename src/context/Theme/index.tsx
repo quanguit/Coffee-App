@@ -1,5 +1,13 @@
-import React, { createContext, ReactNode, useContext, useState } from 'react';
+import React, {
+  createContext,
+  ReactNode,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import { ThemeType } from './index.type';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 type Props = {
   children?: ReactNode;
@@ -22,15 +30,6 @@ const LightTheme = {
   // border: '#E5E5E5',
   // divider: '#EEEEEE',
   // tableHeaderBackground: '#F2F2F2',
-
-  // // Components
-  // codeInputBorder: '#C4C4C4',
-  // vaccineInfoBodyBg: '#FCFCFC',
-  // vaccineInfoBadgeBg: '#A0C4FF',
-  // vaccineInfoBadgeText: 'rgba(0, 0, 0, 0.5)',
-  // scanLogBgExpanded: 'rgba(0, 0, 0, 0.02)',
-  // scanQRButtonLabel: '#519BE3',
-  // viewScanLogButtonLabel: '#6166D7',
 };
 
 const DarkTheme = {
@@ -50,19 +49,11 @@ const DarkTheme = {
   // border: '#E5E5E5',
   // divider: '#EEEEEE',
   // tableHeaderBackground: '#F2F2F2',
-
-  // // Components
-  // codeInputBorder: '#C4C4C4',
-  // vaccineInfoBodyBg: '#FCFCFC',
-  // vaccineInfoBadgeBg: '#A0C4FF',
-  // vaccineInfoBadgeText: 'rgba(0, 0, 0, 0.5)',
-  // scanLogBgExpanded: 'rgba(0, 0, 0, 0.02)',
-  // scanQRButtonLabel: '#519BE3',
-  // viewScanLogButtonLabel: '#6166D7',
 };
 
 const themeDefault = {
   isDark: false,
+  setIsDark: () => {},
   colors: LightTheme,
   changeTheme: () => {},
 };
@@ -70,12 +61,31 @@ const themeDefault = {
 const ThemeContext = createContext<ThemeType>(themeDefault);
 
 const ThemeProvider = ({ children }: Props) => {
-  const [isDark, setIsisDark] = useState(false);
+  const [isDark, setIsDark] = useState(false);
+  const ref = useRef(false);
 
-  const changeTheme = () => setIsisDark(!isDark);
+  useEffect(() => {
+    const storedAsyncStorage = async () => {
+      try {
+        await AsyncStorage.setItem('isDarkTheme', JSON.stringify(isDark));
+      } catch (error) {
+        console.log('error: ', error);
+      }
+    };
+
+    // set rule for useEffect() in Context render after useEffect() in App
+    if (ref.current === false) {
+      ref.current = true;
+    } else {
+      storedAsyncStorage();
+    }
+  }, [isDark]);
+
+  const changeTheme = () => setIsDark(!isDark);
 
   const themeContextData = {
     isDark,
+    setIsDark,
     colors: isDark ? DarkTheme : LightTheme,
     changeTheme,
   };

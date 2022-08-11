@@ -7,16 +7,20 @@ import SearchBar from '../../components/SearchBar';
 import { SCREEN_MARGIN_HORIZONTAL } from '../../configs/App';
 import { HomeStackParamList } from '../../navigation/AuthorizedTab';
 import firestore from '@react-native-firebase/firestore';
-import { ItemProps } from '../Home/types';
 import { useTheme } from '../../context/Theme';
+import { useItem } from '../../context/Item';
+import { ItemOptionProps } from '../../context/Item/index.type';
 
 const DetailScreen = () => {
   const route = useRoute<RouteProp<HomeStackParamList>>();
   const { itemId } = route.params;
   const { colors } = useTheme();
-  const [item, setItem] = useState<ItemProps | null>(null);
-  const [selectedSize, setSelectedSize] = useState('');
+  const { items } = useItem();
+  const [item, setItem] = useState<ItemOptionProps>();
+  const [selectedSize, setSelectedSize] = useState('Small');
   const [price, setPrice] = useState(0);
+  const [count, setCount] = useState(0);
+  const { addItem } = useItem();
 
   const getDetailItem = async () => {
     const getItem = await firestore()
@@ -25,17 +29,34 @@ const DetailScreen = () => {
       .get();
     const convertDataToDocs = getItem.docs;
     const convertDataToArray = convertDataToDocs.map(
-      it => it.data() as ItemProps,
+      it => it.data() as ItemOptionProps,
     );
     setItem(convertDataToArray[0]);
-    setSelectedSize(convertDataToArray[0].sizes[0].size);
+    setSelectedSize(
+      convertDataToArray[0].sizes[
+        selectedSize === 'Small' ? 0 : selectedSize === 'Medium' ? 1 : 2
+      ].size,
+    );
     setPrice(convertDataToArray[0].sizes[0].price);
+  };
+
+  const getCountForSize = () => {
+    const countItem = items.find(
+      ite => ite.id === itemId && ite.size === selectedSize,
+    );
+    setCount(countItem ? countItem.quantity : 0);
   };
 
   useEffect(() => {
     getDetailItem();
+    getCountForSize();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [items]);
+
+  useEffect(() => {
+    getCountForSize();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedSize]);
 
   const checkFullSize = () => {
     if (item?.sizes.length === 3) {
@@ -54,8 +75,10 @@ const DetailScreen = () => {
           <Image source={{ uri: item?.imageUrl }} style={styles.image} />
         </View>
         <View style={styles.inforItem}>
-          <Text style={styles.title}>{item?.name}</Text>
-          <View style={styles.content}>
+          <Text style={[styles.title, { color: colors.primaryText }]}>
+            {item?.name}
+          </Text>
+          <View style={[styles.content, { backgroundColor: '#F1F1F1' }]}>
             <Text style={styles.heading}>Size</Text>
             <View
               style={[
@@ -72,7 +95,7 @@ const DetailScreen = () => {
                     styles.item,
                     {
                       backgroundColor:
-                        sz.size === selectedSize ? '#754C24' : '#F5F5F5',
+                        sz.size === selectedSize ? '#754C24' : '#FFFFFF',
                     },
                   ]}
                   key={sz.size}
@@ -98,9 +121,23 @@ const DetailScreen = () => {
             <Button
               wrapperStyle={styles.btn}
               style={styles.styleBtn}
-              label={`Add to cart   |   $${price}`}
+              label={`Add to cart   |   $${price} x ${count}`}
               borderColor="#754C24"
               backgroundColor="#754C24"
+              onPress={() => {
+                if (item) {
+                  const formatItem = {
+                    cate_id: item.cate_id,
+                    id: item.id,
+                    imageUrl: item.imageUrl,
+                    name: item.name,
+                    size: selectedSize,
+                    price: price,
+                    quantity: 1,
+                  };
+                  addItem(formatItem);
+                }
+              }}
             />
           </View>
         </View>
@@ -138,7 +175,6 @@ const styles = StyleSheet.create({
     height: 350,
   },
   content: {
-    backgroundColor: 'white',
     borderTopLeftRadius: 40,
     borderTopRightRadius: 40,
     height: 180,

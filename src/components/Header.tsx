@@ -70,7 +70,7 @@ const Header = ({ user, canBack, title, canChangeTheme }: Props) => {
               },
             ]}>
             {isDark ? (
-              <EntypoIcon name="light-down" size={27} />
+              <EntypoIcon name="light-down" size={27} color="#FFFFFF" />
             ) : (
               <Fontisto name="night-clear" size={15} />
             )}
