@@ -8,9 +8,13 @@ import UnauthorizedStack, {
   UNAUTHORIZED_STACK,
 } from './navigation/UnauthorizedStack';
 import { DefaultScreenOptions } from './configs/Navigation';
-import ThemeProvider, { useTheme } from './context/Theme';
-import ItemsProvider, { useItem } from './context/Item';
+import ThemeProvider from './context/Theme';
+import ItemsProvider from './context/Item';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useItem, useTheme } from './context';
+import AppProvider from './context/App';
+import AppLoading from './components/AppLoading';
+import SplashScreen from 'react-native-splash-screen';
 
 const AppChild = () => {
   const { setIsDark } = useTheme();
@@ -33,13 +37,17 @@ const AppChild = () => {
       }
     };
     getAsyncStorage();
+    SplashScreen.hide();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const renderAppStackScreens = () => {
     if (accessToken) {
       return (
-        <AppStack.Screen name={AUTHORIZED_STACK} component={AuthorizedStack} />
+        <AppStack.Screen
+          name={AUTHORIZED_STACK}
+          component={AuthorizedStack || null}
+        />
       );
     }
 
@@ -52,21 +60,26 @@ const AppChild = () => {
   };
 
   return (
-    <NavigationContainer>
-      <AppStack.Navigator screenOptions={DefaultScreenOptions}>
-        {renderAppStackScreens()}
-      </AppStack.Navigator>
-    </NavigationContainer>
+    <>
+      <NavigationContainer>
+        <AppStack.Navigator screenOptions={DefaultScreenOptions}>
+          {renderAppStackScreens()}
+        </AppStack.Navigator>
+      </NavigationContainer>
+    </>
   );
 };
 
 const App = () => {
   return (
-    <ThemeProvider>
-      <ItemsProvider>
-        <AppChild />
-      </ItemsProvider>
-    </ThemeProvider>
+    <AppProvider>
+      <ThemeProvider>
+        <ItemsProvider>
+          <AppChild />
+          <AppLoading />
+        </ItemsProvider>
+      </ThemeProvider>
+    </AppProvider>
   );
 };
 

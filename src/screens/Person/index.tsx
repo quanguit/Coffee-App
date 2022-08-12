@@ -4,7 +4,7 @@ import { IC_LOCATION, IC_EMAIL, IC_PHONENUMBER, IC_USER } from '../../assets';
 import Header from '../../components/Header';
 import Input from './components/Input';
 import QRCode from 'react-native-qrcode-svg';
-import { useTheme } from '../../context/Theme';
+import { useTheme } from '../../context';
 
 const PersonScreen = () => {
   const { colors } = useTheme();

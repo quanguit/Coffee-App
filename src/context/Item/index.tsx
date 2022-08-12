@@ -1,7 +1,6 @@
 import React, {
   createContext,
   ReactNode,
-  useContext,
   useEffect,
   useRef,
   useState,
@@ -20,7 +19,7 @@ const itemDefault = {
   removeItem: () => {},
 };
 
-const ItemContext = createContext<ItemType>(itemDefault);
+export const ItemContext = createContext<ItemType>(itemDefault);
 
 const ItemsProvider = ({ children }: Props) => {
   const [items, setItems] = useState<ItemProps[]>([]);
@@ -97,7 +96,3 @@ const ItemsProvider = ({ children }: Props) => {
   );
 };
 export default ItemsProvider;
-
-export const useItem = () => {
-  return useContext(ItemContext);
-};

@@ -19,7 +19,7 @@ import {
 } from '../../navigation/UnauthorizedStack';
 import AntDesignIcon from 'react-native-vector-icons/AntDesign';
 import * as Yup from 'yup';
-import { useTheme } from '../../context/Theme';
+import { useTheme } from '../../context';
 
 type Props = {
   navigation: NativeStackNavigationProp<UnauthorizedStackParamList>;

@@ -20,8 +20,9 @@ import { AuthorizedNavigationProp } from '../../../configs/Navigation';
 import { DETAIL } from '../../../navigation/HomeStack';
 import firestore from '@react-native-firebase/firestore';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import { useTheme } from '../../../context/Theme';
 import { ItemOptionProps } from '../../../context/Item/index.type';
+import { useApp, useTheme } from '../../../context';
+import AdvertisementSection from './AdvertisementSection';
 
 const Menu = [
   { id: '1', name: 'Coffee', icon: <FontAwesomeIcon name="coffee" /> },
@@ -39,18 +40,22 @@ const CategoriesSection = () => {
   const navigation = useNavigation<AuthorizedNavigationProp>();
   const [items, setItems] = useState<ItemOptionProps[]>([]);
   const { colors } = useTheme();
+  const { showAppLoading, hideAppLoading, appLoading } = useApp();
 
   const getAllItems = async () => {
+    showAppLoading();
     const getItems = await firestore().collection('collection').get();
     const convertDataToDocs = getItems.docs;
     const convertDataToArray = convertDataToDocs.map(
       it => it.data() as ItemOptionProps,
     );
     setItems(convertDataToArray);
+    hideAppLoading();
   };
 
   useEffect(() => {
     getAllItems();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -120,6 +125,7 @@ const CategoriesSection = () => {
             ),
         )}
       </View>
+      {!appLoading ? <AdvertisementSection /> : null}
     </>
   );
 };

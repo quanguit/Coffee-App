@@ -8,7 +8,7 @@ import {
   SELECTION,
   UnauthorizedStackParamList,
 } from '../../navigation/UnauthorizedStack';
-import { useTheme } from '../../context/Theme';
+import { useTheme } from '../../context';
 
 type Props = {
   navigation: NativeStackNavigationProp<UnauthorizedStackParamList>;

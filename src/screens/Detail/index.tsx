@@ -7,20 +7,18 @@ import SearchBar from '../../components/SearchBar';
 import { SCREEN_MARGIN_HORIZONTAL } from '../../configs/App';
 import { HomeStackParamList } from '../../navigation/AuthorizedTab';
 import firestore from '@react-native-firebase/firestore';
-import { useTheme } from '../../context/Theme';
-import { useItem } from '../../context/Item';
 import { ItemOptionProps } from '../../context/Item/index.type';
+import { useItem, useTheme } from '../../context';
 
 const DetailScreen = () => {
   const route = useRoute<RouteProp<HomeStackParamList>>();
   const { itemId } = route.params;
   const { colors } = useTheme();
-  const { items } = useItem();
+  const { items, addItem } = useItem();
   const [item, setItem] = useState<ItemOptionProps>();
   const [selectedSize, setSelectedSize] = useState('Small');
   const [price, setPrice] = useState(0);
   const [count, setCount] = useState(0);
-  const { addItem } = useItem();
 
   const getDetailItem = async () => {
     const getItem = await firestore()

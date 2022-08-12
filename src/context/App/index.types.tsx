@@ -4,7 +4,6 @@ export type AppProps = {
 
 export type AppType = {
   appLoading: boolean;
-  setAppLoading: (app: boolean) => void;
   showAppLoading: () => void;
   hideAppLoading: () => void;
 };

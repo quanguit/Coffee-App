@@ -6,9 +6,11 @@ export type ThemeType = {
     primaryText?: string;
     secondaryBackground?: string;
     secondaryText?: string;
+    backgroundColorSpinner?: string;
     labelText?: string;
-    primary?: string;
     textOnColoredSurface?: string;
+
+    primary?: string;
     success?: string;
     successSurface?: string;
     warning?: string;

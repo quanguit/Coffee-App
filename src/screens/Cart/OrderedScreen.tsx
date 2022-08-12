@@ -6,7 +6,7 @@ import AntDesignIcon from 'react-native-vector-icons/AntDesign';
 import { useNavigation } from '@react-navigation/native';
 import { AuthorizedNavigationProp } from '../../configs/Navigation';
 import { HOME } from '../../navigation/AuthorizedTab';
-import { useTheme } from '../../context/Theme';
+import { useTheme } from '../../context';
 
 const OrderedScreen = () => {
   const navigation = useNavigation<AuthorizedNavigationProp>();

@@ -10,7 +10,7 @@ import { useNavigation } from '@react-navigation/native';
 import { AuthorizedNavigationProp } from '../../../configs/Navigation';
 import { ORDERED } from '../../../navigation/CartStack';
 import { totalPrice, totalQuantity } from '../../../context/Item/item.utils';
-import { useItem } from '../../../context/Item';
+import { useItem } from '../../../context';
 
 type Props = {
   toggleModal: () => void;

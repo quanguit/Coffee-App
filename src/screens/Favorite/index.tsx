@@ -3,7 +3,7 @@ import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { IMAGE_ITEM_FAVOR } from '../../assets';
 import Header from '../../components/Header';
 import { SCREEN_MARGIN_HORIZONTAL } from '../../configs/App';
-import { useTheme } from '../../context/Theme';
+import { useTheme } from '../../context';
 import FavoriteItem from './components/FavoriteItem';
 
 const FavoriteScreen = () => {

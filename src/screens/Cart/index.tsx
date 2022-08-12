@@ -7,9 +7,8 @@ import CartItem from './components/CartItem';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import OrderPayment from './components/OrderPayment';
 import Modal from 'react-native-modal';
-import { useTheme } from '../../context/Theme';
-import { useItem } from '../../context/Item';
 import { totalPrice } from '../../context/Item/item.utils';
+import { useItem, useTheme } from '../../context';
 
 const CartScreen = () => {
   const [isModalVisible, setModalVisible] = useState(false);

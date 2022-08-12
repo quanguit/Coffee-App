@@ -6,7 +6,7 @@ import {
   DEFAULT_SHADOW_SETTINGS,
   SCREEN_MARGIN_HORIZONTAL,
 } from '../../../configs/App';
-import { useTheme } from '../../../context/Theme';
+import { useTheme } from '../../../context';
 
 const AdvertisementSection = () => {
   const { colors } = useTheme();

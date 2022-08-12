@@ -1,7 +1,6 @@
 import React, {
   createContext,
   ReactNode,
-  useContext,
   useEffect,
   useRef,
   useState,
@@ -18,9 +17,10 @@ const LightTheme = {
   primaryText: '#333333',
   secondaryBackground: '#FFE5E5',
   secondaryText: '#FF6057',
+  backgroundColorSpinner: '#FFFFFF',
+  textOnColoredSurface: '#333333',
   // labelText: '#666666',
   // primary: '#238CFD',
-  // textOnColoredSurface: '#FFFFFF',
   // success: '#48C4A1',
   // successSurface: '#DAF3EC',
   // warning: '#F3A712',
@@ -37,9 +37,10 @@ const DarkTheme = {
   primaryText: '#FFFFFF',
   secondaryBackground: '#FFFFFF',
   secondaryText: '#333333',
+  backgroundColorSpinner: '#333333',
+  textOnColoredSurface: '#FFFFFF',
   // labelText: '#666666',
   // primary: '#238CFD',
-  // textOnColoredSurface: '#FFFFFF',
   // success: '#48C4A1',
   // successSurface: '#DAF3EC',
   // warning: '#F3A712',
@@ -58,7 +59,7 @@ const themeDefault = {
   changeTheme: () => {},
 };
 
-const ThemeContext = createContext<ThemeType>(themeDefault);
+export const ThemeContext = createContext<ThemeType>(themeDefault);
 
 const ThemeProvider = ({ children }: Props) => {
   const [isDark, setIsDark] = useState(false);
@@ -97,7 +98,3 @@ const ThemeProvider = ({ children }: Props) => {
   );
 };
 export default ThemeProvider;
-
-export const useTheme = () => {
-  return useContext(ThemeContext);
-};

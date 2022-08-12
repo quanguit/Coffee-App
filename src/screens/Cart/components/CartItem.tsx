@@ -2,8 +2,7 @@ import React from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { DEFAULT_SHADOW_SETTINGS } from '../../../configs/App';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
-import { useTheme } from '../../../context/Theme';
-import { useItem } from '../../../context/Item';
+import { useItem, useTheme } from '../../../context';
 
 type Props = {
   id: string;
@@ -80,6 +79,7 @@ const styles = StyleSheet.create({
   image: {
     width: 110,
     height: 80,
+    resizeMode: 'contain',
   },
   title: {
     fontWeight: '500',

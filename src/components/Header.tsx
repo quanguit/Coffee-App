@@ -14,9 +14,9 @@ import { IC_AVATAR } from '../assets';
 import { useNavigation } from '@react-navigation/native';
 import { PERSON } from '../navigation/AuthorizedTab';
 import { AuthorizedNavigationProp } from '../configs/Navigation';
-import { useTheme } from '../context/Theme';
 import EntypoIcon from 'react-native-vector-icons/Entypo';
 import Fontisto from 'react-native-vector-icons/Fontisto';
+import { useTheme } from '../context';
 
 type Props = {
   title?: string;

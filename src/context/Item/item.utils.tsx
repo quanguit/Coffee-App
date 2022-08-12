@@ -20,7 +20,7 @@ export const removeItem = (items: ItemProps[], id: string) => {
 
   if (existingItem?.quantity === 1) {
     const newArray = items.map(item =>
-      item.id === id ? { ...item, quantity: item.quantity || 1 - 1 } : item,
+      item.id === id ? { ...item, quantity: item.quantity - 1 } : item,
     );
     return newArray;
   }

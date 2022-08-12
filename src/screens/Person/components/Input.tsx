@@ -2,7 +2,7 @@ import React from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import AntDesignIcon from 'react-native-vector-icons/AntDesign';
 import { SCREEN_MARGIN_HORIZONTAL } from '../../../configs/App';
-import { useTheme } from '../../../context/Theme';
+import { useTheme } from '../../../context';
 
 type Props = {
   title: string;
