@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import {
   Image,
   ScrollView,
@@ -18,7 +18,6 @@ import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import { useNavigation } from '@react-navigation/native';
 import { AuthorizedNavigationProp } from '../../../configs/Navigation';
 import { DETAIL } from '../../../navigation/HomeStack';
-import firestore from '@react-native-firebase/firestore';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { ItemOptionProps } from '../../../context/Item/index.type';
 import { useApp, useTheme } from '../../../context';
@@ -35,28 +34,15 @@ const Menu = [
   },
 ];
 
-const CategoriesSection = () => {
+type Props = {
+  items: ItemOptionProps[];
+};
+
+const CategoriesSection = ({ items }: Props) => {
   const [selected, setSelected] = useState(Menu[0].id);
   const navigation = useNavigation<AuthorizedNavigationProp>();
-  const [items, setItems] = useState<ItemOptionProps[]>([]);
   const { colors } = useTheme();
-  const { showAppLoading, hideAppLoading, appLoading } = useApp();
-
-  const getAllItems = async () => {
-    showAppLoading();
-    const getItems = await firestore().collection('collection').get();
-    const convertDataToDocs = getItems.docs;
-    const convertDataToArray = convertDataToDocs.map(
-      it => it.data() as ItemOptionProps,
-    );
-    setItems(convertDataToArray);
-    hideAppLoading();
-  };
-
-  useEffect(() => {
-    getAllItems();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const { appLoading } = useApp();
 
   return (
     <>

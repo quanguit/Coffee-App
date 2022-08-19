@@ -8,9 +8,10 @@ type Props = {
   title: string;
   value: string;
   image: number;
+  onPress: () => void;
 };
 
-const Input = ({ title, value, image }: Props) => {
+const Input = ({ title, value, image, onPress }: Props) => {
   const { colors } = useTheme();
 
   return (
@@ -30,7 +31,12 @@ const Input = ({ title, value, image }: Props) => {
         </Text>
       </View>
       <TouchableOpacity>
-        <AntDesignIcon name="edit" size={25} color={colors.primaryText} />
+        <AntDesignIcon
+          name="edit"
+          size={25}
+          color={colors.primaryText}
+          onPress={onPress}
+        />
       </TouchableOpacity>
     </View>
   );

@@ -75,6 +75,7 @@ const CartScreen = () => {
         swipeDirection="down"
         onSwipeComplete={() => setModalVisible(false)}
         onBackdropPress={() => setModalVisible(false)}
+        coverScreen={false}
         style={styles.modal}>
         <OrderPayment toggleModal={toggleModal} />
       </Modal>

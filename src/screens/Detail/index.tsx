@@ -3,7 +3,6 @@ import { RouteProp, useRoute } from '@react-navigation/native';
 import { Text, View, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import Button from '../../components/Button';
 import Header from '../../components/Header';
-import SearchBar from '../../components/SearchBar';
 import { SCREEN_MARGIN_HORIZONTAL } from '../../configs/App';
 import { HomeStackParamList } from '../../navigation/AuthorizedTab';
 import firestore from '@react-native-firebase/firestore';
@@ -67,7 +66,6 @@ const DetailScreen = () => {
     <View
       style={[styles.container, { backgroundColor: colors.primaryBackground }]}>
       <Header canBack user />
-      <SearchBar />
       <View style={styles.detailItem}>
         <View style={styles.backgroundItem}>
           <Image source={{ uri: item?.imageUrl }} style={styles.image} />

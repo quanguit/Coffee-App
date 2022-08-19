@@ -17,6 +17,7 @@ const itemDefault = {
   setItems: () => {},
   addItem: () => {},
   removeItem: () => {},
+  deleteAllItems: () => {},
 };
 
 export const ItemContext = createContext<ItemType>(itemDefault);
@@ -82,11 +83,17 @@ const ItemsProvider = ({ children }: Props) => {
     setItems(newArray);
   };
 
+  const deleteAllItems = async () => {
+    await AsyncStorage.removeItem('Items');
+    setItems([]);
+  };
+
   const itemContextData = {
     items,
     setItems,
     addItem,
     removeItem,
+    deleteAllItems,
   };
 
   return (

@@ -1,10 +1,16 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { StyleSheet, TextInput, TouchableOpacity, View } from 'react-native';
 import { SCREEN_MARGIN_HORIZONTAL } from '../configs/App';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
+import { debounce } from 'lodash';
 
-const SearchBar = () => {
-  const [text, setText] = useState('');
+type Props = {
+  searchValue: string;
+  setSearchValue: (value: string) => void;
+};
+
+const SearchBar = ({ searchValue, setSearchValue }: Props) => {
+  const changeText = debounce(value => setSearchValue(value), 1000);
 
   return (
     <View style={styles.container}>
@@ -13,8 +19,8 @@ const SearchBar = () => {
       </TouchableOpacity>
       <TextInput
         style={styles.input}
-        onChangeText={tx => setText(tx)}
-        value={text}
+        onChangeText={tx => changeText(tx)}
+        defaultValue={searchValue}
         placeholder="Search Coffee..."
       />
     </View>

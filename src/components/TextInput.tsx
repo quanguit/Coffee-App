@@ -8,6 +8,7 @@ import {
   Image,
   Text,
   TouchableOpacity,
+  ColorValue,
 } from 'react-native';
 import { IC_INVISIBILITY, IC_VISIBILITY } from '../assets';
 import { SCREEN_MARGIN_HORIZONTAL } from '../configs/App';
@@ -19,12 +20,18 @@ type Props = {
   explanation?: string;
   containerStyle?: ViewStyle;
   icon?: number;
+  color?: ColorValue;
 } & TextInputProps;
 
 const ICON_WIDTH = 70;
 const INPUT_MAX_WIDTH = 50;
 
-const TextInput = ({ error, icon, ...textInputProps }: Props) => {
+const TextInput = ({
+  error,
+  icon,
+  color = '#333333',
+  ...textInputProps
+}: Props) => {
   const [containerWidth, setContainerWidth] = useState(0);
   const visibleVisibilityIcon =
     typeof textInputProps.secureTextEntry === 'boolean'; // set visibleVisibilityIcon to other data type // undefined -> boolean
@@ -56,12 +63,14 @@ const TextInput = ({ error, icon, ...textInputProps }: Props) => {
           autoCorrect={false}
           spellCheck={false}
           blurOnSubmit={false}
+          placeholderTextColor={textInputProps.placeholderTextColor}
           style={[
             styles.textInput,
             {
               maxWidth:
                 containerWidth -
                 (visibleVisibilityIcon ? ICON_WIDTH : INPUT_MAX_WIDTH),
+              color: color,
             },
           ]}
           {...textInputProps}

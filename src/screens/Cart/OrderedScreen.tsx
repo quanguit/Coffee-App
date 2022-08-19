@@ -6,11 +6,12 @@ import AntDesignIcon from 'react-native-vector-icons/AntDesign';
 import { useNavigation } from '@react-navigation/native';
 import { AuthorizedNavigationProp } from '../../configs/Navigation';
 import { HOME } from '../../navigation/AuthorizedTab';
-import { useTheme } from '../../context';
+import { useItem, useTheme } from '../../context';
 
 const OrderedScreen = () => {
   const navigation = useNavigation<AuthorizedNavigationProp>();
   const { colors } = useTheme();
+  const { deleteAllItems } = useItem();
 
   return (
     <View
@@ -40,6 +41,7 @@ const OrderedScreen = () => {
         borderColor="#754C24"
         backgroundColor="#754C24"
         onPress={() => {
+          deleteAllItems();
           navigation.popToTop();
           navigation.navigate(HOME);
         }}

@@ -10,20 +10,31 @@ import { useNavigation } from '@react-navigation/native';
 import { AuthorizedNavigationProp } from '../../../configs/Navigation';
 import { ORDERED } from '../../../navigation/CartStack';
 import { totalPrice, totalQuantity } from '../../../context/Item/item.utils';
-import { useItem } from '../../../context';
+import { useApp, useItem } from '../../../context';
+import Toastify from '../../../components/Toast';
 
 type Props = {
   toggleModal: () => void;
 };
 
 const OrderPayment = ({ toggleModal }: Props) => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [method, setMethod] = useState('');
+  const [method, setMethod] = useState('online_payment');
   const navigation = useNavigation<AuthorizedNavigationProp>();
   const { items } = useItem();
+  const { showAppLoading, hideAppLoading } = useApp();
 
   const onSelect = (index: any, value: any) => {
     setMethod(value);
+  };
+
+  const showToast = (_method: string) => {
+    Toastify({
+      type: 'success',
+      text1: `You paid ${
+        _method === 'online_payment' ? 'online' : 'by credit card'
+      } and ordered successfully`,
+      text2: 'Your order will be transfered on time 👋',
+    });
   };
 
   return (
@@ -100,8 +111,13 @@ const OrderPayment = ({ toggleModal }: Props) => {
           }
           style={styles.button}
           onPress={() => {
-            toggleModal();
-            navigation.navigate(ORDERED);
+            showAppLoading();
+            setTimeout(() => {
+              hideAppLoading();
+              toggleModal();
+              navigation.navigate(ORDERED);
+              showToast(method);
+            }, 2000);
           }}
         />
       </View>
@@ -155,7 +171,7 @@ const styles = StyleSheet.create({
   },
   total: {
     width: '100%',
-    marginTop: 100,
+    marginTop: 20,
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
@@ -169,9 +185,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-around',
-    marginTop: 20,
     position: 'absolute',
-    bottom: 60,
+    bottom: 30,
     left: 0,
     right: 0,
   },

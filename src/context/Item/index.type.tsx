@@ -26,4 +26,5 @@ export type ItemType = {
   setItems: (arrayItem: ItemProps[]) => void;
   addItem: (item: ItemProps) => void;
   removeItem: (id: string, size: string) => void;
+  deleteAllItems: () => void;
 };

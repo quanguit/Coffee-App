@@ -20,6 +20,7 @@ type Props = {
   backgroundColor?: ColorValue;
   borderColor?: ColorValue;
   fontSize?: number;
+  textColor?: ColorValue;
 };
 
 const Button = ({
@@ -31,6 +32,7 @@ const Button = ({
   borderColor,
   wrapperStyle,
   fontSize = 18,
+  textColor = '#FFFFFF',
 }: Props) => {
   return (
     <ShadowView style={[styles.wrapper, wrapperStyle]}>
@@ -39,7 +41,10 @@ const Button = ({
         style={[styles.itemContainer, { backgroundColor, borderColor }, style]}>
         {icon && <View>{icon}</View>}
         {label && (
-          <Text style={[styles.label, { fontSize: fontSize }]}>{label}</Text>
+          <Text
+            style={[styles.label, { fontSize: fontSize, color: textColor }]}>
+            {label}
+          </Text>
         )}
       </TouchableOpacity>
     </ShadowView>
@@ -54,14 +59,13 @@ const styles = StyleSheet.create({
   },
   itemContainer: {
     flexDirection: 'row',
-    borderRadius: 99,
+    borderRadius: 30,
     justifyContent: 'center',
     alignItems: 'center',
     padding: 16,
     borderWidth: 1,
   },
   label: {
-    color: 'white',
     fontWeight: '500',
   },
 });

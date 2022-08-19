@@ -24,7 +24,7 @@ import {
   UnauthorizedStackParamList,
 } from '../../navigation/UnauthorizedStack';
 import * as Yup from 'yup';
-import { useTheme } from '../../context/Theme';
+import { useTheme } from '../../context';
 
 type Props = {
   navigation: NativeStackNavigationProp<UnauthorizedStackParamList>;

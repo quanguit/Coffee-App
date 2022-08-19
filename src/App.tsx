@@ -15,6 +15,7 @@ import { useItem, useTheme } from './context';
 import AppProvider from './context/App';
 import AppLoading from './components/AppLoading';
 import SplashScreen from 'react-native-splash-screen';
+import Toast from 'react-native-toast-message';
 
 const AppChild = () => {
   const { setIsDark } = useTheme();
@@ -76,6 +77,7 @@ const App = () => {
       <ThemeProvider>
         <ItemsProvider>
           <AppChild />
+          <Toast />
           <AppLoading />
         </ItemsProvider>
       </ThemeProvider>
