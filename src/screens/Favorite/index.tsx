@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { IMAGE_ITEM_FAVOR } from '../../assets';
 import Header from '../../components/Header';
@@ -16,13 +17,14 @@ const FavoriteScreen = () => {
     { id: '4', title: 'Americano', image: IMAGE_ITEM_FAVOR },
   ]);
   const { isDark, colors } = useTheme();
+  const { t } = useTranslation();
 
   return (
     <View
       style={[styles.container, { backgroundColor: colors.primaryBackground }]}>
       <Header user canBack />
       <Text style={[styles.heading, { color: colors.primaryText }]}>
-        Favorites
+        {t('screen.Favorite.title')}
       </Text>
       <ScrollView
         showsVerticalScrollIndicator={false}
@@ -30,7 +32,7 @@ const FavoriteScreen = () => {
           styles.section,
           { backgroundColor: isDark ? '#205375' : '#1C140F' },
         ]}>
-        <Text style={styles.content}>Select your coffee</Text>
+        <Text style={styles.content}>{t('screen.Favorite.yourFavor')}</Text>
         <View style={styles.favorItems}>
           {data.map(item => (
             <FavoriteItem key={item.id} title={item.title} image={item.image} />

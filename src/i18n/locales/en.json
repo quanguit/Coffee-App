@@ -1,0 +1,82 @@
+{
+  "common": {
+      "login": "Sign in",
+      "logout": "Log out",
+      "save": "Save",
+      "change": "Change",
+      "cancel": "Cancel"
+  },
+  "screen": {
+      "Home": {
+          "title": "Categories",
+          "search": "Search ...",
+          "coffee": "Coffee",
+          "tea": "Tea",
+          "icedBlended": "Iced Blended",
+          "cake": "Cake",
+          "titleAd": "Special Offer!"
+      },
+      "Detail": {
+        "content": "Add To Card"
+      },
+      "Favorite": {
+          "title": "Favorites",
+          "yourFavor": "Your Favorites"
+      },
+      "Cart": {
+          "title": "My Order",
+          "message": "You haven't ordered anything!"
+      },
+      "Person": {
+          "header": "Profile",
+          "name": "Name",
+          "phone": "Phone Number", 
+          "email": "Email",
+          "address": "Address"
+      },
+      "Selection": {
+        "signin": "Login",
+        "or": "Or",
+        "signup": "Create An Account",
+        "title": "Select an option"
+      },
+      "SignIn": {
+        "signin": "Sign In",
+        "content": "Welcome Back",
+        "email": "Email",
+        "signup": "Sign Up",
+        "new": "New member?",
+        "password": "Password",
+        "forgot": "Forgot Password?"
+      },
+      "SignUp": {
+        "signup": "Sign Up",
+        "content": "Create An Account Here",
+        "name": "Name",
+        "phone": "Phone Number",
+        "email": "Email",
+        "password": "Password",
+        "confirm": "Confirm Password",
+        "address": "Address",
+        "isMember": "Already a member?",
+        "signin": "Sign In",
+        "term": "By signing up you agree with our Terms of Use"
+      },
+      "Forgot": {
+        "email": "Email",
+        "content": "Enter your email",
+        "title": "Forgot Password?"
+      }
+  },
+  "validation": {
+    "email": "Invalid email",
+    "requiredEmail": "Email is required!",
+    "password": "Your password must have at least {{ minLength }} characters",
+    "requiredPassword": "Password is required!",
+    "requiredName": "Name is required!",
+    "requiredPhone": "Phone is required!",
+    "CFPassword": "Passwords must match",
+    "requiredCFPassword": "Confirm your password is required!",
+    "requiredAddress": "Address is required!"
+  }
+}

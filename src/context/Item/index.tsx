@@ -36,7 +36,7 @@ const ItemsProvider = ({ children }: Props) => {
     };
 
     // set rule for useEffect() in Context render after useEffect() in App
-    if (ref.current === false) {
+    if (!ref.current) {
       ref.current = true;
     } else {
       storedAsyncStorage();
@@ -102,4 +102,5 @@ const ItemsProvider = ({ children }: Props) => {
     </ItemContext.Provider>
   );
 };
+
 export default ItemsProvider;

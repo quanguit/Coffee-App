@@ -14,6 +14,7 @@ import AntDesignIcon from 'react-native-vector-icons/AntDesign';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { UnauthorizedStackParamList } from '../../navigation/UnauthorizedStack';
 import * as Yup from 'yup';
+import { useTranslation } from 'react-i18next';
 
 type Props = {
   navigation: NativeStackNavigationProp<UnauthorizedStackParamList>;
@@ -26,19 +27,20 @@ type Formvalues = {
 const ForgotPasswordScreen = ({ navigation }: Props) => {
   const formRef = useRef<FormikProps<Formvalues>>(null);
   const [validateOnChange, setValidateOnChange] = useState(false);
+  const { t } = useTranslation();
 
   return (
     <View style={styles.container}>
       <Header canBack />
-      <Text style={styles.heading}>Forgot Password?</Text>
-      <Text style={styles.text}>Enter your email address</Text>
+      <Text style={styles.heading}>{t('screen.Forgot.title')}</Text>
+      <Text style={styles.text}>{t('screen.Forgot.content')}</Text>
       <View style={styles.form}>
         <Formik
           initialValues={{ email: '' }}
           validationSchema={Yup.object().shape({
             email: Yup.string()
-              .email('Invalid email address')
-              .required('Email is required!'),
+              .email(t('validation.email'))
+              .required(t('validation.requiredEmail')),
           })}
           validateOnChange={validateOnChange}
           validateOnBlur={false}
@@ -56,7 +58,7 @@ const ForgotPasswordScreen = ({ navigation }: Props) => {
                 value={values.email}
                 error={errors.email}
                 editable={!isSubmitting}
-                placeholder="Email address"
+                placeholder={t('screen.Forgot.email')}
                 icon={IC_EMAIL}
                 keyboardType="email-address"
               />

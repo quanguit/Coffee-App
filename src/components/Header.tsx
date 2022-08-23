@@ -17,6 +17,7 @@ import { AuthorizedNavigationProp } from '../configs/Navigation';
 import EntypoIcon from 'react-native-vector-icons/Entypo';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import { useTheme } from '../context';
+import { useTranslation } from 'react-i18next';
 
 type Props = {
   title?: string;
@@ -28,6 +29,7 @@ type Props = {
 const Header = ({ user, canBack, title, canChangeTheme }: Props) => {
   const navigation = useNavigation<AuthorizedNavigationProp>();
   const { isDark, colors, changeTheme } = useTheme();
+  const { t } = useTranslation();
 
   return (
     <ShadowView style={{ backgroundColor: colors.primaryBackground }}>
@@ -48,7 +50,7 @@ const Header = ({ user, canBack, title, canChangeTheme }: Props) => {
                 { marginLeft: !canBack && user ? 70 : 0 },
                 { color: colors.primaryText },
               ]}>
-              {title}
+              {t('screen.Person.header')}
             </Text>
           </View>
         )}

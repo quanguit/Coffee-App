@@ -9,6 +9,7 @@ import {
   UnauthorizedStackParamList,
 } from '../../navigation/UnauthorizedStack';
 import { useTheme } from '../../context';
+import { useTranslation } from 'react-i18next';
 
 type Props = {
   navigation: NativeStackNavigationProp<UnauthorizedStackParamList>;
@@ -16,26 +17,27 @@ type Props = {
 
 const SelectionScreen = ({ navigation }: Props) => {
   const { colors } = useTheme();
+  const { t } = useTranslation();
 
   return (
     <View
       style={[styles.container, { backgroundColor: colors.primaryBackground }]}>
       <Header canBack />
       <View style={styles.main}>
-        <Text style={styles.text}>Select an option</Text>
+        <Text style={styles.text}>{t('screen.Selection.title')}</Text>
         <Button
           borderColor="black"
           backgroundColor="black"
-          label="Login"
+          label={t('screen.Selection.signin')}
           style={styles.button}
           fontSize={22}
           onPress={() => navigation.navigate(SIGN_IN)}
         />
-        <Text style={styles.or}>Or</Text>
+        <Text style={styles.or}>{t('screen.Selection.or')}</Text>
         <Button
           borderColor="black"
           backgroundColor="black"
-          label="Create An Account"
+          label={t('screen.Selection.signup')}
           style={styles.button}
           fontSize={22}
           onPress={() => navigation.navigate(SIGN_UP)}

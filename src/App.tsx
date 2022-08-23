@@ -11,15 +11,18 @@ import { DefaultScreenOptions } from './configs/Navigation';
 import ThemeProvider from './context/Theme';
 import ItemsProvider from './context/Item';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useItem, useTheme } from './context';
+import { useItem, useLanguage, useTheme } from './context';
 import AppProvider from './context/App';
 import AppLoading from './components/AppLoading';
 import SplashScreen from 'react-native-splash-screen';
 import Toast from 'react-native-toast-message';
+import LanguageProvider from './context/Language';
+import i18n from './i18n';
 
 const AppChild = () => {
   const { setIsDark } = useTheme();
   const { setItems } = useItem();
+  const { setLanguage } = useLanguage();
   const accessToken = true;
 
   useEffect(() => {
@@ -27,11 +30,17 @@ const AppChild = () => {
       try {
         const jsonTheme = await AsyncStorage.getItem('isDarkTheme');
         const jsonItems = await AsyncStorage.getItem('Items');
+        const jsonLanguage = await AsyncStorage.getItem('Language');
+
         if (jsonTheme) {
           setIsDark(JSON.parse(jsonTheme));
         }
         if (jsonItems) {
           setItems(JSON.parse(jsonItems));
+        }
+        if (jsonLanguage) {
+          setLanguage(JSON.parse(jsonLanguage));
+          i18n.changeLanguage(JSON.parse(jsonLanguage));
         }
       } catch (error) {
         console.log('error', error);
@@ -75,11 +84,13 @@ const App = () => {
   return (
     <AppProvider>
       <ThemeProvider>
-        <ItemsProvider>
-          <AppChild />
-          <Toast />
-          <AppLoading />
-        </ItemsProvider>
+        <LanguageProvider>
+          <ItemsProvider>
+            <AppChild />
+            <Toast />
+            <AppLoading />
+          </ItemsProvider>
+        </LanguageProvider>
       </ThemeProvider>
     </AppProvider>
   );

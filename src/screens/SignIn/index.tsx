@@ -20,6 +20,7 @@ import {
 import AntDesignIcon from 'react-native-vector-icons/AntDesign';
 import * as Yup from 'yup';
 import { useTheme } from '../../context';
+import { useTranslation } from 'react-i18next';
 
 type Props = {
   navigation: NativeStackNavigationProp<UnauthorizedStackParamList>;
@@ -34,14 +35,15 @@ const SignInScreen = ({ navigation }: Props) => {
   const formRef = useRef<FormikProps<FormValues>>(null);
   const [validateOnChange, setValidateOnChange] = useState(false);
   const { colors } = useTheme();
+  const { t } = useTranslation();
 
   return (
     <View
       style={[styles.container, { backgroundColor: colors.primaryBackground }]}>
       <Header canBack />
       <ScrollView showsVerticalScrollIndicator={false}>
-        <Text style={styles.heading}>Sign in</Text>
-        <Text style={styles.text}>Welcome back</Text>
+        <Text style={styles.heading}>{t('screen.SignIn.signin')}</Text>
+        <Text style={styles.text}>{t('screen.SignIn.content')}</Text>
         <View style={styles.form}>
           <Formik
             initialValues={{
@@ -50,14 +52,14 @@ const SignInScreen = ({ navigation }: Props) => {
             }}
             validationSchema={Yup.object().shape({
               email: Yup.string()
-                .email('Invalid email address')
-                .required('Email is required!'),
+                .email(t('validation.email'))
+                .required(t('validation.requiredEmail')),
               password: Yup.string()
                 .min(
                   PASSWORD_MIN_LENGTH,
-                  `Your password must have at least ${PASSWORD_MIN_LENGTH} characters`,
+                  t('validation.password', { minLength: PASSWORD_MIN_LENGTH }),
                 )
-                .required('Password is required!'),
+                .required(t('validation.requiredPassword')),
             })}
             validateOnChange={validateOnChange}
             validateOnBlur={false}
@@ -75,7 +77,7 @@ const SignInScreen = ({ navigation }: Props) => {
                   value={values.email}
                   error={errors.email}
                   editable={!isSubmitting}
-                  placeholder="Email address"
+                  placeholder={t('screen.SignIn.email')}
                   icon={IC_EMAIL}
                   keyboardType="email-address"
                 />
@@ -84,7 +86,7 @@ const SignInScreen = ({ navigation }: Props) => {
                   value={values.password}
                   error={errors.password}
                   editable={!isSubmitting}
-                  placeholder="Password"
+                  placeholder={t('screen.SignIn.password')}
                   icon={IC_PASSWORD}
                   secureTextEntry
                 />
@@ -99,21 +101,21 @@ const SignInScreen = ({ navigation }: Props) => {
                     formRef.current?.resetForm();
                     navigation.navigate(FORGOT_PASSWORD);
                   }}>
-                  Forgot Password?
+                  {t('screen.SignIn.forgot')}
                 </Text>
               </KeyboardAwareScrollView>
             )}
           </Formik>
         </View>
         <Text style={[styles.text, { marginTop: 350, marginBottom: 75 }]}>
-          New member?{' '}
+          {t('screen.SignIn.new')}{' '}
           <Text
             style={styles.colorText}
             onPress={() => {
               formRef.current?.resetForm();
               navigation.navigate(SIGN_UP);
             }}>
-            Sign up
+            {t('screen.SignIn.signup')}
           </Text>
         </Text>
       </ScrollView>

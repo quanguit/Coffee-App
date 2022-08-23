@@ -9,11 +9,13 @@ import OrderPayment from './components/OrderPayment';
 import Modal from 'react-native-modal';
 import { totalPrice } from '../../context/Item/item.utils';
 import { useItem, useTheme } from '../../context';
+import { useTranslation } from 'react-i18next';
 
 const CartScreen = () => {
   const [isModalVisible, setModalVisible] = useState(false);
   const { items } = useItem();
   const { colors } = useTheme();
+  const { t } = useTranslation();
 
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
@@ -24,7 +26,7 @@ const CartScreen = () => {
       style={[styles.container, { backgroundColor: colors.primaryBackground }]}>
       <Header canBack />
       <Text style={[styles.heading, { color: colors.primaryText }]}>
-        My order
+        {t('screen.Cart.title')}
       </Text>
       {items.length ? (
         <ScrollView showsVerticalScrollIndicator={false}>
@@ -67,7 +69,7 @@ const CartScreen = () => {
         </ScrollView>
       ) : (
         <Text style={[styles.title, { color: colors.primaryText }]}>
-          You haven't ordered anything!
+          {t('screen.Cart.message')}
         </Text>
       )}
       <Modal

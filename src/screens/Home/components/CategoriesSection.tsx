@@ -22,32 +22,47 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import { ItemOptionProps } from '../../../context/Item/index.type';
 import { useApp, useTheme } from '../../../context';
 import AdvertisementSection from './AdvertisementSection';
-
-const Menu = [
-  { id: '1', name: 'Coffee', icon: <FontAwesomeIcon name="coffee" /> },
-  { id: '2', name: 'Tea', icon: <Image source={IC_COLDBREW} /> },
-  { id: '3', name: 'Iced Blended', icon: <Image source={IC_ESPRESSO} /> },
-  {
-    id: '4',
-    name: 'Cake',
-    icon: <MaterialCommunityIcons name="cupcake" size={15} />,
-  },
-];
+import { useTranslation } from 'react-i18next';
 
 type Props = {
   items: ItemOptionProps[];
 };
 
 const CategoriesSection = ({ items }: Props) => {
-  const [selected, setSelected] = useState(Menu[0].id);
   const navigation = useNavigation<AuthorizedNavigationProp>();
   const { colors } = useTheme();
   const { appLoading } = useApp();
+  const { t } = useTranslation();
+
+  const Menu = [
+    {
+      id: '1',
+      name: t('screen.Home.coffee'),
+      icon: <FontAwesomeIcon name="coffee" />,
+    },
+    {
+      id: '2',
+      name: t('screen.Home.tea'),
+      icon: <Image source={IC_COLDBREW} />,
+    },
+    {
+      id: '3',
+      name: t('screen.Home.icedBlended'),
+      icon: <Image source={IC_ESPRESSO} />,
+    },
+    {
+      id: '4',
+      name: t('screen.Home.cake'),
+      icon: <MaterialCommunityIcons name="cupcake" size={15} />,
+    },
+  ];
+
+  const [selected, setSelected] = useState(Menu[0].id);
 
   return (
     <>
       <Text style={[styles.heading, { color: colors.primaryText }]}>
-        Categories
+        {t('screen.Home.title')}
       </Text>
       <View style={styles.menu}>
         <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>

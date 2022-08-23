@@ -1,0 +1,82 @@
+{
+  "common": {
+      "login": "Đăng nhập",
+      "logout": "Thoát",
+      "save": "Lưu",
+      "change": "Thay đổi",
+      "cancel": "Hủy"
+  },
+  "screen": {
+      "Home": {
+          "title": "Danh mục",
+          "search": "Tìm kiếm ...",
+          "coffee": "Cà phê",
+          "tea": "Trà",
+          "icedBlended": "Đá xay",
+          "cake": "Bánh",
+          "titleAd": "Khuyến mãi đặc biệt!"
+      },
+      "Detail": {
+        "content": "Thêm vào giỏ"
+      },
+      "Favorite": {
+          "title": "Yêu thích",
+          "yourFavor": "Danh sách yêu thích"
+      },
+      "Cart": {
+          "title": "Đơn hàng",
+          "message": "Bạn chưa chọn sản phẩm nào!"
+      },
+      "Person": {
+          "header": "Hồ sơ",
+          "name": "Tên",
+          "phoneNumber": "Số điện thoại", 
+          "email": "Email",
+          "address": "Địa chỉ"
+      },
+      "Selection": {
+        "signin": "Đăng nhập",
+        "or": "Hoặc",
+        "signup": "Tạo tài khoản",
+        "title": "Chọn một lựa chọn"
+      },
+      "SignIn": {
+        "signin": "Đăng nhập",
+        "content": "Chào mừng bạn trở lại",
+        "email": "Email",
+        "signup": "Đăng ký",
+        "new": "Thành viên mới?",
+        "password": "Mật khẩu",
+        "forgot": "Quên mật khẩu?"
+      },
+      "SignUp": {
+        "signup": "Đăng ký",
+        "content": "Tạo một tài khoản tại đây",
+        "name": "Tên",
+        "phone": "Số điện thoại",
+        "email": "Email",
+        "password": "Mật khẩu",
+        "confirm": "Xác nhận mật khẩu",
+        "address": "Địa chỉ",
+        "isMember": "Đã là thành viên?",
+        "signin": "Đăng nhập",
+        "term": "Bằng cách đăng ký, bạn đồng ý với Điều khoản sử dụng của chúng tôi"
+      },
+      "Forgot": {
+        "email": "Email",
+        "content": "Nhập email của bạn",
+        "title": "Quên mật khẩu?"
+      }
+  },
+  "validation": {
+    "email": "Email không hợp lệ",
+    "requiredEmail": "Yêu cầu email!",
+    "password": "Mật khẩu phải có ít nhất {{ minLength }} kí tự",
+    "requiredPassword": "Yêu cầu mật khẩu!",
+    "requiredName": "Yêu cầu tên!",
+    "requiredPhone": "Yêu cầu số điện thoại!",
+    "CFPassword": "Mật khẩu phải trùng khớp",
+    "requiredCFPassword": "Yêu cầu xác nhận lại mật khẩu!",
+    "requiredAddress": "Yêu cầu địa chỉ!"
+  }
+}

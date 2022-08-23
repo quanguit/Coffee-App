@@ -8,6 +8,7 @@ import { HomeStackParamList } from '../../navigation/AuthorizedTab';
 import firestore from '@react-native-firebase/firestore';
 import { ItemOptionProps } from '../../context/Item/index.type';
 import { useItem, useTheme } from '../../context';
+import { useTranslation } from 'react-i18next';
 
 const DetailScreen = () => {
   const route = useRoute<RouteProp<HomeStackParamList>>();
@@ -18,6 +19,7 @@ const DetailScreen = () => {
   const [selectedSize, setSelectedSize] = useState('Small');
   const [price, setPrice] = useState(0);
   const [count, setCount] = useState(0);
+  const { t } = useTranslation();
 
   const getDetailItem = async () => {
     const getItem = await firestore()
@@ -117,7 +119,7 @@ const DetailScreen = () => {
             <Button
               wrapperStyle={styles.btn}
               style={styles.styleBtn}
-              label={`Add to cart   |   $${price} x ${count}`}
+              label={`${t('screen.Detail.content')}   |   $${price} x ${count}`}
               borderColor="#754C24"
               backgroundColor="#754C24"
               onPress={() => {

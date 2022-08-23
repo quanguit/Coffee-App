@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { StyleSheet, Text, View, Image } from 'react-native';
 import ShadowView from 'react-native-simple-shadow-view';
 import { BANNER_COUPON } from '../../../assets';
@@ -10,11 +11,12 @@ import { useTheme } from '../../../context';
 
 const AdvertisementSection = () => {
   const { colors } = useTheme();
+  const { t } = useTranslation();
 
   return (
     <View>
       <Text style={[styles.heading, { color: colors.primaryText }]}>
-        Special Offer!
+        {t('screen.Home.titleAd')}
       </Text>
       <View style={styles.bannerContainer}>
         <ShadowView style={styles.shadow}>

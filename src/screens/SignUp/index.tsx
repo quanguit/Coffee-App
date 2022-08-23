@@ -25,6 +25,7 @@ import {
 } from '../../navigation/UnauthorizedStack';
 import * as Yup from 'yup';
 import { useTheme } from '../../context';
+import { useTranslation } from 'react-i18next';
 
 type Props = {
   navigation: NativeStackNavigationProp<UnauthorizedStackParamList>;
@@ -36,21 +37,22 @@ type Formvalues = {
   email: string;
   password: string;
   cf_password: string;
-  location: string;
+  address: string;
 };
 
 const SignUpScreen = ({ navigation }: Props) => {
   const formRef = useRef<FormikProps<Formvalues>>(null);
   const [validateOnChange, setValidateOnChange] = useState(false);
   const { colors } = useTheme();
+  const { t } = useTranslation();
 
   return (
     <View
       style={[styles.container, { backgroundColor: colors.primaryBackground }]}>
       <Header canBack />
       <ScrollView showsVerticalScrollIndicator={false}>
-        <Text style={styles.heading}>Sign up</Text>
-        <Text style={styles.text}>Create an account here</Text>
+        <Text style={styles.heading}>{t('screen.SignUp.signup')}</Text>
+        <Text style={styles.text}>{t('screen.SignUp.content')}</Text>
         <View style={styles.form}>
           <Formik
             initialValues={{
@@ -59,25 +61,27 @@ const SignUpScreen = ({ navigation }: Props) => {
               email: '',
               password: '',
               cf_password: '',
-              location: '',
+              address: '',
             }}
             innerRef={formRef}
             validationSchema={Yup.object().shape({
-              username: Yup.string().required('Username is required!'),
-              phone_number: Yup.number().required('Phone number is required!'),
+              username: Yup.string().required(t('validation.requiredName')),
+              phone_number: Yup.number().required(
+                t('validation.requiredPhone'),
+              ),
               email: Yup.string()
-                .email('Invalid email address')
-                .required('Email is required!'),
+                .email(t('validation.email'))
+                .required(t('validation.requiredEmail')),
               password: Yup.string()
                 .min(
                   PASSWORD_MIN_LENGTH,
-                  `Your password must have at least ${PASSWORD_MIN_LENGTH} characters`,
+                  t('validation.password', { minLength: PASSWORD_MIN_LENGTH }),
                 )
-                .required('Password is required!'),
+                .required(t('validation.requiredPassword')),
               cf_password: Yup.string()
-                .oneOf([Yup.ref('password')], 'Passwords must match')
-                .required('Confirm your password is required!'),
-              location: Yup.string().required('Location is required!'),
+                .oneOf([Yup.ref('password')], t('validation.CFPassword'))
+                .required(t('validation.requiredCFPassword')),
+              address: Yup.string().required(t('validation.requiredAddress')),
             })}
             validateOnChange={validateOnChange}
             validateOnBlur={false}
@@ -94,7 +98,7 @@ const SignUpScreen = ({ navigation }: Props) => {
                   value={values.username}
                   error={errors.username}
                   editable={!isSubmitting}
-                  placeholder="Create an account here"
+                  placeholder={t('screen.SignUp.name')}
                   icon={IC_USER}
                 />
                 <TextInput
@@ -102,7 +106,7 @@ const SignUpScreen = ({ navigation }: Props) => {
                   value={values.phone_number}
                   error={errors.phone_number}
                   editable={!isSubmitting}
-                  placeholder="Mobile Number"
+                  placeholder={t('screen.SignUp.phone')}
                   icon={IC_PHONENUMBER}
                   keyboardType="numeric"
                 />
@@ -111,7 +115,7 @@ const SignUpScreen = ({ navigation }: Props) => {
                   value={values.email}
                   error={errors.email}
                   editable={!isSubmitting}
-                  placeholder="Email address"
+                  placeholder={t('screen.SignUp.email')}
                   icon={IC_EMAIL}
                   keyboardType="email-address"
                 />
@@ -120,7 +124,7 @@ const SignUpScreen = ({ navigation }: Props) => {
                   value={values.password}
                   error={errors.password}
                   editable={!isSubmitting}
-                  placeholder="Password"
+                  placeholder={t('screen.SignUp.password')}
                   icon={IC_PASSWORD}
                   secureTextEntry
                 />
@@ -129,16 +133,16 @@ const SignUpScreen = ({ navigation }: Props) => {
                   value={values.cf_password}
                   error={errors.cf_password}
                   editable={!isSubmitting}
-                  placeholder="Confirm Password"
+                  placeholder={t('screen.SignUp.confirm')}
                   icon={IC_PASSWORD}
                   secureTextEntry
                 />
                 <TextInput
-                  onChangeText={handleChange('location')}
-                  value={values.location}
-                  error={errors.location}
+                  onChangeText={handleChange('address')}
+                  value={values.address}
+                  error={errors.address}
                   editable={!isSubmitting}
-                  placeholder="Location"
+                  placeholder={t('screen.SignUp.address')}
                   icon={IC_LOCATION}
                 />
                 <Button
@@ -151,17 +155,17 @@ const SignUpScreen = ({ navigation }: Props) => {
           </Formik>
         </View>
         <Text style={[styles.text, styles.colorText, { textAlign: 'center' }]}>
-          By signing up you agree with our Terms of Use
+          {t('screen.SignUp.term')}
         </Text>
         <Text style={[styles.text, { marginVertical: 75 }]}>
-          Already a member?{' '}
+          {t('screen.SignUp.isMember')}{' '}
           <Text
             style={styles.colorText}
             onPress={() => {
               formRef.current?.resetForm();
               navigation.navigate(SIGN_IN);
             }}>
-            Sign in
+            {t('screen.SignUp.signin')}
           </Text>
         </Text>
       </ScrollView>
