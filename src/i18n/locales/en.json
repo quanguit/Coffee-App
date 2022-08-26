@@ -25,7 +25,14 @@
       },
       "Cart": {
           "title": "My Order",
-          "message": "You haven't ordered anything!"
+          "message": "You haven't ordered anything!",
+          "buy": "Buy",
+          "totalPrice": "Total Price",
+          "pay": "Pay Now",
+          "online": "Online Payment",
+          "credit": "Credit Card",
+          "quantity": "Total Quantity",
+          "titleModal": "Order Payment"
       },
       "Person": {
           "header": "Profile",
@@ -78,5 +85,11 @@
     "CFPassword": "Passwords must match",
     "requiredCFPassword": "Confirm your password is required!",
     "requiredAddress": "Address is required!"
+  },
+  "notification": {
+    "ordered": "Ordered",
+    "title1": "{{ name }}, your order has been successfully placed.",
+    "title2": "The order will be ready today \n to 18:10 at the address \n {{ address }}",
+    "title3": "Submit your personal QR code \n at a coffee shop to receive an order."
   }
 }

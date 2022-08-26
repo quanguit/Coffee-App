@@ -19,7 +19,7 @@ import {
 } from '../../navigation/UnauthorizedStack';
 import AntDesignIcon from 'react-native-vector-icons/AntDesign';
 import * as Yup from 'yup';
-import { useTheme } from '../../context';
+import { useApp, useAuth, useTheme } from '../../context';
 import { useTranslation } from 'react-i18next';
 
 type Props = {
@@ -36,6 +36,8 @@ const SignInScreen = ({ navigation }: Props) => {
   const [validateOnChange, setValidateOnChange] = useState(false);
   const { colors } = useTheme();
   const { t } = useTranslation();
+  const { showAppLoading, hideAppLoading } = useApp();
+  const { signIn } = useAuth();
 
   return (
     <View
@@ -64,8 +66,10 @@ const SignInScreen = ({ navigation }: Props) => {
             validateOnChange={validateOnChange}
             validateOnBlur={false}
             innerRef={formRef}
-            onSubmit={(values, actions) => {
-              console.log(values);
+            onSubmit={async (values, actions) => {
+              showAppLoading();
+              await signIn(values);
+              hideAppLoading();
               actions.setSubmitting(false);
               setValidateOnChange(false);
             }}>

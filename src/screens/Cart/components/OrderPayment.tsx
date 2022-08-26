@@ -12,6 +12,7 @@ import { ORDERED } from '../../../navigation/CartStack';
 import { totalPrice, totalQuantity } from '../../../context/Item/item.utils';
 import { useApp, useItem } from '../../../context';
 import Toastify from '../../../components/Toast';
+import { useTranslation } from 'react-i18next';
 
 type Props = {
   toggleModal: () => void;
@@ -22,6 +23,7 @@ const OrderPayment = ({ toggleModal }: Props) => {
   const navigation = useNavigation<AuthorizedNavigationProp>();
   const { items } = useItem();
   const { showAppLoading, hideAppLoading } = useApp();
+  const { t } = useTranslation();
 
   const onSelect = (index: any, value: any) => {
     setMethod(value);
@@ -39,7 +41,7 @@ const OrderPayment = ({ toggleModal }: Props) => {
 
   return (
     <View style={styles.section}>
-      <Text style={styles.heading}>Order payment</Text>
+      <Text style={styles.heading}>{t('screen.Cart.titleModal')}</Text>
       <View style={styles.sectionPayment}>
         <View style={styles.introduce}>
           <View style={styles.icon}>
@@ -61,7 +63,7 @@ const OrderPayment = ({ toggleModal }: Props) => {
             <View style={styles.paymentItem}>
               <View style={{ flexGrow: 1 }}>
                 <Text style={[styles.title, { marginBottom: 8 }]}>
-                  Online payment
+                  {t('screen.Cart.online')}
                 </Text>
                 <Text style={{ color: '#00183338' }}>Assist Philippines</Text>
               </View>
@@ -75,7 +77,7 @@ const OrderPayment = ({ toggleModal }: Props) => {
             <View style={styles.paymentItem}>
               <View style={{ flexGrow: 1 }}>
                 <Text style={[styles.title, { marginBottom: 8 }]}>
-                  Credit Card
+                  {t('screen.Cart.credit')}
                 </Text>
                 <Text style={{ color: '#00183338' }}>2540 xxxx xxxx 2648</Text>
               </View>
@@ -88,17 +90,17 @@ const OrderPayment = ({ toggleModal }: Props) => {
         </RadioGroup>
 
         <View style={styles.total}>
-          <Text style={styles.title}>Selected Quantity:</Text>
+          <Text style={styles.title}>{t('screen.Cart.quantity')}:</Text>
           <Text style={styles.title}>{totalQuantity(items)}</Text>
         </View>
       </View>
       <View style={styles.payment}>
         <View style={styles.content}>
-          <Text style={styles.titlePrice}>Total Price</Text>
+          <Text style={styles.titlePrice}>{t('screen.Cart.totalPrice')}</Text>
           <Text style={styles.price}>${totalPrice(items)}</Text>
         </View>
         <Button
-          label="Pay Now"
+          label={t('screen.Cart.pay')}
           borderColor="#324A59"
           backgroundColor="#324A59"
           icon={

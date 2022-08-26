@@ -24,20 +24,21 @@ import {
   UnauthorizedStackParamList,
 } from '../../navigation/UnauthorizedStack';
 import * as Yup from 'yup';
-import { useTheme } from '../../context';
+import { useApp, useAuth, useTheme } from '../../context';
 import { useTranslation } from 'react-i18next';
+import Toastify from '../../components/Toast';
 
 type Props = {
   navigation: NativeStackNavigationProp<UnauthorizedStackParamList>;
 };
 
-type Formvalues = {
-  username: string;
-  phone_number: string;
+export type Formvalues = {
+  username?: string;
+  phone?: string;
   email: string;
   password: string;
-  cf_password: string;
-  address: string;
+  cf_password?: string;
+  address?: string;
 };
 
 const SignUpScreen = ({ navigation }: Props) => {
@@ -45,6 +46,8 @@ const SignUpScreen = ({ navigation }: Props) => {
   const [validateOnChange, setValidateOnChange] = useState(false);
   const { colors } = useTheme();
   const { t } = useTranslation();
+  const { showAppLoading, hideAppLoading } = useApp();
+  const { signUp } = useAuth();
 
   return (
     <View
@@ -57,7 +60,7 @@ const SignUpScreen = ({ navigation }: Props) => {
           <Formik
             initialValues={{
               username: '',
-              phone_number: '',
+              phone: '',
               email: '',
               password: '',
               cf_password: '',
@@ -66,9 +69,7 @@ const SignUpScreen = ({ navigation }: Props) => {
             innerRef={formRef}
             validationSchema={Yup.object().shape({
               username: Yup.string().required(t('validation.requiredName')),
-              phone_number: Yup.number().required(
-                t('validation.requiredPhone'),
-              ),
+              phone: Yup.number().required(t('validation.requiredPhone')),
               email: Yup.string()
                 .email(t('validation.email'))
                 .required(t('validation.requiredEmail')),
@@ -85,8 +86,24 @@ const SignUpScreen = ({ navigation }: Props) => {
             })}
             validateOnChange={validateOnChange}
             validateOnBlur={false}
-            onSubmit={(values, actions) => {
-              console.log(values);
+            onSubmit={async (values, actions) => {
+              showAppLoading();
+              const { data, error } = await signUp(values);
+              console.log('data: ', data);
+
+              if (data) {
+                Toastify({
+                  type: 'success',
+                  text1: 'You registered successfully!',
+                });
+                navigation.navigate(SIGN_IN);
+              } else {
+                Toastify({
+                  type: 'error',
+                  text1: `${error}`,
+                });
+              }
+              hideAppLoading();
               actions.setSubmitting(false);
               setValidateOnChange(false);
             }}>
@@ -102,13 +119,14 @@ const SignUpScreen = ({ navigation }: Props) => {
                   icon={IC_USER}
                 />
                 <TextInput
-                  onChangeText={handleChange('phone_number')}
-                  value={values.phone_number}
-                  error={errors.phone_number}
+                  onChangeText={handleChange('phone')}
+                  value={values.phone}
+                  error={errors.phone}
                   editable={!isSubmitting}
                   placeholder={t('screen.SignUp.phone')}
                   icon={IC_PHONENUMBER}
                   keyboardType="numeric"
+                  maxLength={11}
                 />
                 <TextInput
                   onChangeText={handleChange('email')}

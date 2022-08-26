@@ -44,14 +44,14 @@ const CartScreen = () => {
           <View style={styles.payment}>
             <View style={styles.content}>
               <Text style={[styles.titlePrice, { color: colors.primaryText }]}>
-                Total Price
+                {t('screen.Cart.totalPrice')}
               </Text>
               <Text style={[styles.price, { color: colors.primaryText }]}>
                 $ {totalPrice(items)}
               </Text>
             </View>
             <Button
-              label="Buy"
+              label={t('screen.Cart.buy')}
               borderColor="#324A59"
               backgroundColor="#324A59"
               icon={

@@ -25,12 +25,19 @@
       },
       "Cart": {
           "title": "Đơn hàng",
-          "message": "Bạn chưa chọn sản phẩm nào!"
+          "message": "Bạn chưa chọn sản phẩm nào!",
+          "buy": "Mua",
+          "totalPrice": "Tổng đơn hàng",
+          "pay": "Thanh toán",
+          "online": "Thanh toán online",
+          "credit": "Thẻ tín dụng",
+          "quantity": "Tổng số lượng",
+          "titleModal": "Thanh toán đơn đặt hàng"
       },
       "Person": {
           "header": "Hồ sơ",
           "name": "Tên",
-          "phoneNumber": "Số điện thoại", 
+          "phone": "Số điện thoại", 
           "email": "Email",
           "address": "Địa chỉ"
       },
@@ -78,5 +85,11 @@
     "CFPassword": "Mật khẩu phải trùng khớp",
     "requiredCFPassword": "Yêu cầu xác nhận lại mật khẩu!",
     "requiredAddress": "Yêu cầu địa chỉ!"
+  },
+  "notification": {
+    "ordered": "Đã đặt hàng",
+    "title1": "{{ name }}, đơn hàng của bạn đã được đặt thành công.",
+    "title2": "Đơn đặt hàng đã sẵn sàng ngay hôm nay \n đến 18:10 tại địa chỉ \n {{ address }}",
+    "title3": "Gửi mã QR cá nhân của bạn \n tại quán để nhận đơn hàng."
   }
 }

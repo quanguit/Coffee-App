@@ -50,7 +50,7 @@ const Header = ({ user, canBack, title, canChangeTheme }: Props) => {
                 { marginLeft: !canBack && user ? 70 : 0 },
                 { color: colors.primaryText },
               ]}>
-              {t('screen.Person.header')}
+              {t(`screen.${title}.header`)}
             </Text>
           </View>
         )}

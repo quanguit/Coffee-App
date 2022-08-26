@@ -7,11 +7,13 @@ import { useNavigation } from '@react-navigation/native';
 import { AuthorizedNavigationProp } from '../../configs/Navigation';
 import { HOME } from '../../navigation/AuthorizedTab';
 import { useItem, useTheme } from '../../context';
+import { useTranslation } from 'react-i18next';
 
 const OrderedScreen = () => {
   const navigation = useNavigation<AuthorizedNavigationProp>();
   const { colors } = useTheme();
   const { deleteAllItems } = useItem();
+  const { t } = useTranslation();
 
   return (
     <View
@@ -21,18 +23,16 @@ const OrderedScreen = () => {
           <Image source={IC_ORDERED} />
         </View>
         <Text style={[styles.heading, { color: colors.primaryText }]}>
-          Ordered
+          {t('notification.ordered')}
         </Text>
         <Text style={[styles.notice1, { color: colors.primaryText }]}>
-          Patrick, your order has been successfully placed.
+          {t('notification.title1', { name: 'Patrick' })}
         </Text>
         <Text style={[styles.notice2, { color: colors.primaryText }]}>
-          The order will be ready today {'\n'} to 18:10 at the address {'\n'}
-          Cebu City
+          {t('notification.title2', { address: 'Cebu City' })}
         </Text>
         <Text style={[styles.notice1, { color: colors.primaryText }]}>
-          Submit your personal QR code {'\n'} at a coffee shop to receive an
-          order.
+          {t('notification.title3')}
         </Text>
       </View>
       <Button

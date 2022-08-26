@@ -10,7 +10,7 @@ import { IC_LOCATION, IC_EMAIL, IC_PHONENUMBER, IC_USER } from '../../assets';
 import Header from '../../components/Header';
 import Input from './components/Input';
 import QRCode from 'react-native-qrcode-svg';
-import { useLanguage, useTheme } from '../../context';
+import { useAuth, useLanguage, useTheme } from '../../context';
 import Button from '../../components/Button';
 import {
   DEFAULT_KEYBOARD_AWARE_SCROLL_VIEW_CONFIGS,
@@ -29,6 +29,7 @@ const PersonScreen = () => {
   const [isModalVisible, setModalVisible] = useState(false);
   const { language, changeLanguage } = useLanguage();
   const { t } = useTranslation();
+  const { signOut } = useAuth();
 
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
@@ -37,7 +38,7 @@ const PersonScreen = () => {
   return (
     <View
       style={[styles.container, { backgroundColor: colors.primaryBackground }]}>
-      <Header title="Profile" canBack canChangeTheme />
+      <Header title="Person" canBack canChangeTheme />
       <Input
         image={IC_USER}
         title={t('screen.Person.name')}
@@ -80,6 +81,7 @@ const PersonScreen = () => {
           label={t('common.logout')}
           backgroundColor="#333333"
           style={{ width: 100 }}
+          onPress={signOut}
         />
       </View>
       <View style={styles.qrcode}>
@@ -98,15 +100,13 @@ const PersonScreen = () => {
           <Formik
             initialValues={{
               username: '',
-              phone_number: '',
+              phone: '',
               email: '',
               address: '',
             }}
             validationSchema={Yup.object().shape({
               username: Yup.string().required(t('validation.requiredName')),
-              phone_number: Yup.number().required(
-                t('validation.requiredPhone'),
-              ),
+              phone: Yup.number().required(t('validation.requiredPhone')),
               email: Yup.string()
                 .email(t('validation.email'))
                 .required(t('validation.requiredEmail')),
@@ -132,11 +132,11 @@ const PersonScreen = () => {
                   color={colors.primaryText}
                 />
                 <TextInput
-                  onChangeText={handleChange('phone_number')}
-                  value={values.phone_number}
-                  error={errors.phone_number}
+                  onChangeText={handleChange('phone')}
+                  value={values.phone}
+                  error={errors.phone}
                   editable={!isSubmitting}
-                  placeholder={t('screen.Person.phoneNumber')}
+                  placeholder={t('screen.Person.phone')}
                   icon={IC_PHONENUMBER}
                   keyboardType="numeric"
                   color={colors.primaryText}

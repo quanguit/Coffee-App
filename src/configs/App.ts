@@ -11,7 +11,7 @@ export const DEFAULT_SHADOW_SETTINGS: ViewStyle = {
     width: 0,
     height: 4,
   },
-  shadowOpacity: 0.2,
+  shadowOpacity: 0.1,
   shadowRadius: 3.84,
 };
 
