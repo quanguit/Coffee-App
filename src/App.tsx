@@ -18,7 +18,7 @@ import SplashScreen from 'react-native-splash-screen';
 import Toast from 'react-native-toast-message';
 import LanguageProvider from './context/Language';
 import i18n from './i18n';
-import AuthProvider from './context/Auth';
+import AuthProvider, { userProps } from './context/Auth';
 import { firebase } from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import { UserProps } from './context/Auth/index.type';
@@ -32,6 +32,7 @@ const AppChild = () => {
   useEffect(() => {
     const getAsyncStorage = async () => {
       try {
+        // get variables were saved in local
         const jsonTheme = await AsyncStorage.getItem('isDarkTheme');
         const jsonItems = await AsyncStorage.getItem('Items');
         const jsonLanguage = await AsyncStorage.getItem('Language');
@@ -63,6 +64,13 @@ const AppChild = () => {
             .currentUser?.getIdTokenResult();
           setAccessToken(idTokenResult?.token || '');
           setUser(userDocument.data() as UserProps);
+        } else {
+          setUser(userProps);
+          setAccessToken('');
+          setIsDark(false);
+          setLanguage('en');
+          i18n.changeLanguage('en');
+          setItems([]);
         }
       });
     };

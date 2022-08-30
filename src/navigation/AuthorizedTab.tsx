@@ -1,12 +1,12 @@
 import React from 'react';
 import { NAME_PAGES } from '../configs/App';
-import FavoriteScreen from '../screens/Favorite';
 import PersonScreen from '../screens/Person';
 import MaterialIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeStack, { DETAIL, HOME_STACK } from './HomeStack';
 import CartStack, { CART_STACK, ORDERED } from './CartStack';
+import FavoriteStack, { FAVORITE_STACK } from './FavoriteStack';
 
 const { Navigator, Screen } = createBottomTabNavigator();
 
@@ -30,8 +30,8 @@ const AuthorizedTab = () => {
         }}
       />
       <Screen
-        name={FAVORITE}
-        component={FavoriteScreen}
+        name={FAVORITE_STACK}
+        component={FavoriteStack}
         options={{
           tabBarIcon: ({ color }) => (
             <MaterialIcon name="heart" color={color} size={30} />

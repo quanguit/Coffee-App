@@ -29,11 +29,6 @@ export enum NAME_PAGES {
   Selection = 'Selection',
 }
 
-export enum NAME_STACK {
-  HomeStack = 'HomeStack',
-  CartStack = 'CartStack',
-}
-
 export const DEFAULT_KEYBOARD_AWARE_SCROLL_VIEW_CONFIGS: KeyboardAwareScrollViewProps =
   {
     enableOnAndroid: true,

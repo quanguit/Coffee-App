@@ -21,7 +21,8 @@
       },
       "Favorite": {
           "title": "Yêu thích",
-          "yourFavor": "Danh sách yêu thích"
+          "yourFavor": "Danh sách yêu thích",
+          "message": "Bạn chưa thêm vào danh sách yêu thích của mình!"
       },
       "Cart": {
           "title": "Đơn hàng",

@@ -1,3 +1,4 @@
+import { FavoriteItem } from './../screens/Detail/index';
 import { Formvalues } from '../screens/SignUp';
 import firestore from '@react-native-firebase/firestore';
 
@@ -15,14 +16,17 @@ export const generateUserDocument = async (
 
   if (!snapshot.exists) {
     const createAt = new Date();
+    const favoriteList: FavoriteItem[] = [];
 
     try {
       await userRef.set({
+        id: user.uid,
         displayName: additionalData.username,
         createAt,
         address: additionalData.email,
         phone: additionalData.phone,
         username: additionalData.username,
+        favoriteList,
       });
     } catch (error) {
       console.error('Error creating user document', error);

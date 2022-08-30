@@ -21,6 +21,7 @@ import AntDesignIcon from 'react-native-vector-icons/AntDesign';
 import * as Yup from 'yup';
 import { useApp, useAuth, useTheme } from '../../context';
 import { useTranslation } from 'react-i18next';
+import Toastify from '../../components/Toast';
 
 type Props = {
   navigation: NativeStackNavigationProp<UnauthorizedStackParamList>;
@@ -68,7 +69,14 @@ const SignInScreen = ({ navigation }: Props) => {
             innerRef={formRef}
             onSubmit={async (values, actions) => {
               showAppLoading();
-              await signIn(values);
+              const { error } = await signIn(values);
+
+              if (error) {
+                Toastify({
+                  type: 'error',
+                  text1: `${error}`,
+                });
+              }
               hideAppLoading();
               actions.setSubmitting(false);
               setValidateOnChange(false);

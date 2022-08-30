@@ -7,8 +7,17 @@ import { SCREEN_MARGIN_HORIZONTAL } from '../../configs/App';
 import { HomeStackParamList } from '../../navigation/AuthorizedTab';
 import firestore from '@react-native-firebase/firestore';
 import { ItemOptionProps } from '../../context/Item/index.type';
-import { useItem, useTheme } from '../../context';
+import { useAuth, useItem, useTheme } from '../../context';
 import { useTranslation } from 'react-i18next';
+import MaterialIcon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { addItemToCartFavorite } from '../../context/Item/item.utils';
+
+export type FavoriteItem = {
+  cate_id?: string;
+  name?: string;
+  id?: string;
+  imageUrl?: string;
+};
 
 const DetailScreen = () => {
   const route = useRoute<RouteProp<HomeStackParamList>>();
@@ -19,7 +28,10 @@ const DetailScreen = () => {
   const [selectedSize, setSelectedSize] = useState('Small');
   const [price, setPrice] = useState(0);
   const [count, setCount] = useState(0);
+  const [isLiked, setIsLiked] = useState(false);
+  const colorIcon = isLiked ? '#FF1818' : '#D6D4D4';
   const { t } = useTranslation();
+  const { user } = useAuth();
 
   const getDetailItem = async () => {
     const getItem = await firestore()
@@ -37,6 +49,16 @@ const DetailScreen = () => {
       ].size,
     );
     setPrice(convertDataToArray[0].sizes[0].price);
+
+    const userRef = firestore().collection('users').doc(`${user.id}`);
+    const favorList = (await userRef.get()).data()?.favoriteList;
+
+    // handle response all items were liked ==>>>>> hack
+    setIsLiked(
+      favorList
+        ?.map((favor: FavoriteItem) => favor.id)
+        .includes(convertDataToArray[0]?.id),
+    );
   };
 
   const getCountForSize = () => {
@@ -44,6 +66,19 @@ const DetailScreen = () => {
       ite => ite.id === itemId && ite.size === selectedSize,
     );
     setCount(countItem ? countItem.quantity : 0);
+  };
+
+  const addFavorite = async (favorItem: FavoriteItem) => {
+    const userRef = firestore().collection('users').doc(`${user.id}`);
+    const list = (await userRef.get()).data()?.favoriteList;
+
+    try {
+      await userRef.update({
+        favoriteList: addItemToCartFavorite(list, favorItem),
+      });
+    } catch (error) {
+      console.log('Error remove item', error);
+    }
   };
 
   useEffect(() => {
@@ -70,6 +105,19 @@ const DetailScreen = () => {
       <Header canBack user />
       <View style={styles.detailItem}>
         <View style={styles.backgroundItem}>
+          <TouchableOpacity
+            style={styles.icon}
+            onPress={() => {
+              setIsLiked(!isLiked);
+              addFavorite({
+                cate_id: item?.cate_id,
+                name: item?.name,
+                id: item?.id,
+                imageUrl: item?.imageUrl,
+              });
+            }}>
+            <MaterialIcon name="heart" color={colorIcon} size={40} />
+          </TouchableOpacity>
           <Image source={{ uri: item?.imageUrl }} style={styles.image} />
         </View>
         <View style={styles.inforItem}>
@@ -158,6 +206,7 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   backgroundItem: {
+    position: 'relative',
     marginTop: 20,
     justifyContent: 'center',
     alignItems: 'center',
@@ -213,6 +262,12 @@ const styles = StyleSheet.create({
   },
   styleBtn: {
     width: 280,
+  },
+  icon: {
+    position: 'absolute',
+    zIndex: 99,
+    right: 2,
+    top: 2,
   },
 });
 

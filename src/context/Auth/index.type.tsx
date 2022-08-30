@@ -1,6 +1,7 @@
 import { Formvalues } from '../../screens/SignUp';
 
 export type UserProps = {
+  id: string;
   name: string;
   address: string;
   phone: string;

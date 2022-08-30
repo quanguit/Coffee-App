@@ -89,7 +89,7 @@ const SignUpScreen = ({ navigation }: Props) => {
             onSubmit={async (values, actions) => {
               showAppLoading();
               const { data, error } = await signUp(values);
-              console.log('data: ', data);
+              // console.log('data: ', data);
 
               if (data) {
                 Toastify({

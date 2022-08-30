@@ -1,23 +1,28 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
-import { IMAGE_ITEM_FAVOR } from '../../assets';
 import Header from '../../components/Header';
 import { SCREEN_MARGIN_HORIZONTAL } from '../../configs/App';
-import { useTheme } from '../../context';
+import { useAuth, useTheme } from '../../context';
 import FavoriteItem from './components/FavoriteItem';
+import firestore from '@react-native-firebase/firestore';
+import { FavoriteItem as _FavoriteItem } from '../Detail';
 
 const FavoriteScreen = () => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [data, setData] = useState([
-    { id: '0', title: 'Americano', image: IMAGE_ITEM_FAVOR },
-    { id: '1', title: 'Americano', image: IMAGE_ITEM_FAVOR },
-    { id: '2', title: 'Americano', image: IMAGE_ITEM_FAVOR },
-    { id: '3', title: 'Americano', image: IMAGE_ITEM_FAVOR },
-    { id: '4', title: 'Americano', image: IMAGE_ITEM_FAVOR },
-  ]);
+  const [data, setData] = useState<_FavoriteItem[]>([]);
   const { isDark, colors } = useTheme();
   const { t } = useTranslation();
+  const { user } = useAuth();
+
+  useEffect(() => {
+    const getFavoriteList = async () => {
+      const userRef = firestore().collection('users').doc(`${user.id}`);
+      const favoriteList = (await userRef.get()).data()?.favoriteList;
+      setData(favoriteList);
+    };
+    getFavoriteList();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data]);
 
   return (
     <View
@@ -30,14 +35,31 @@ const FavoriteScreen = () => {
         showsVerticalScrollIndicator={false}
         style={[
           styles.section,
-          { backgroundColor: isDark ? '#205375' : '#1C140F' },
+          { backgroundColor: isDark ? '#205375' : '#CFD2CF' },
         ]}>
-        <Text style={styles.content}>{t('screen.Favorite.yourFavor')}</Text>
-        <View style={styles.favorItems}>
-          {data.map(item => (
-            <FavoriteItem key={item.id} title={item.title} image={item.image} />
-          ))}
-        </View>
+        {data.length !== 0 ? (
+          <>
+            <Text style={[styles.content, { color: colors.primaryText }]}>
+              {t('screen.Favorite.yourFavor')}
+            </Text>
+            <View style={styles.favorItems}>
+              {data.map(item => (
+                <FavoriteItem
+                  key={item.id}
+                  id={item.id}
+                  title={item.name}
+                  image={item.imageUrl}
+                />
+              ))}
+            </View>
+          </>
+        ) : (
+          <View style={styles.sectionTitle}>
+            <Text style={[styles.title, { color: colors.primaryText }]}>
+              {t('screen.Favorite.message')}
+            </Text>
+          </View>
+        )}
       </ScrollView>
     </View>
   );
@@ -59,7 +81,6 @@ const styles = StyleSheet.create({
     marginHorizontal: SCREEN_MARGIN_HORIZONTAL,
     marginBottom: 10,
     marginTop: 20,
-    color: '#D8D8D8',
   },
   section: {
     flex: 1,
@@ -73,6 +94,18 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     justifyContent: 'space-between',
     marginHorizontal: SCREEN_MARGIN_HORIZONTAL,
+  },
+  sectionTitle: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  title: {
+    fontSize: 16,
+    fontWeight: '600',
+    textAlign: 'center',
+    marginTop: 50,
+    maxWidth: 300,
+    lineHeight: 30,
   },
 });
 

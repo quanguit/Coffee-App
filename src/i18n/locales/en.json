@@ -21,7 +21,8 @@
       },
       "Favorite": {
           "title": "Favorites",
-          "yourFavor": "Your Favorites"
+          "yourFavor": "Your Favorites",
+          "message": "You haven't added anything into your favorite list!"
       },
       "Cart": {
           "title": "My Order",
