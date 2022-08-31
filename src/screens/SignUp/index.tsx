@@ -96,6 +96,7 @@ const SignUpScreen = ({ navigation }: Props) => {
                   type: 'success',
                   text1: 'You registered successfully!',
                 });
+                navigation.popToTop();
                 navigation.navigate(SIGN_IN);
               } else {
                 Toastify({

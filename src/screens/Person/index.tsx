@@ -22,6 +22,8 @@ import { Formik } from 'formik';
 import * as Yup from 'yup';
 import Modal from 'react-native-modal';
 import { useTranslation } from 'react-i18next';
+import firestore from '@react-native-firebase/firestore';
+import { UserProps } from '../../context/Auth/index.type';
 
 const PersonScreen = () => {
   const { colors } = useTheme();
@@ -29,10 +31,25 @@ const PersonScreen = () => {
   const [isModalVisible, setModalVisible] = useState(false);
   const { language, changeLanguage } = useLanguage();
   const { t } = useTranslation();
-  const { signOut } = useAuth();
+  const { signOut, user, setUser } = useAuth();
 
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
+  };
+
+  const updateProfile = async (updateUser: UserProps) => {
+    const userRef = firestore().collection('users').doc(`${updateUser.id}`);
+
+    try {
+      await userRef.update({
+        ...updateUser,
+        displayName: updateUser.name,
+      });
+      setUser(updateUser);
+      toggleModal();
+    } catch (error) {
+      console.log('Error remove item', error);
+    }
   };
 
   return (
@@ -42,25 +59,25 @@ const PersonScreen = () => {
       <Input
         image={IC_USER}
         title={t('screen.Person.name')}
-        value="Patrick"
+        value={user.name}
         onPress={toggleModal}
       />
       <Input
         image={IC_PHONENUMBER}
         title={t('screen.Person.phone')}
-        value="+375 33 664-57-36"
+        value={user.phone}
         onPress={toggleModal}
       />
       <Input
         image={IC_EMAIL}
         title={t('screen.Person.email')}
-        value="adosmenesk@pm.me"
+        value={user.email}
         onPress={toggleModal}
       />
       <Input
         image={IC_LOCATION}
         title={t('screen.Person.address')}
-        value="HoChiMinh City"
+        value={user.address}
         onPress={toggleModal}
       />
       <View style={styles.sectionBottom}>
@@ -99,13 +116,14 @@ const PersonScreen = () => {
         <ScrollView>
           <Formik
             initialValues={{
-              username: '',
-              phone: '',
-              email: '',
-              address: '',
+              id: user.id,
+              name: user.name,
+              email: user.email,
+              phone: user.phone,
+              address: user.address,
             }}
             validationSchema={Yup.object().shape({
-              username: Yup.string().required(t('validation.requiredName')),
+              name: Yup.string().required(t('validation.requiredName')),
               phone: Yup.number().required(t('validation.requiredPhone')),
               email: Yup.string()
                 .email(t('validation.email'))
@@ -114,8 +132,8 @@ const PersonScreen = () => {
             })}
             validateOnChange={validateOnChange}
             validateOnBlur={false}
-            onSubmit={(values, actions) => {
-              console.log(values);
+            onSubmit={async (values, actions) => {
+              await updateProfile(values);
               actions.setSubmitting(false);
               setValidateOnChange(false);
             }}>
@@ -123,9 +141,9 @@ const PersonScreen = () => {
               <KeyboardAwareScrollView
                 {...DEFAULT_KEYBOARD_AWARE_SCROLL_VIEW_CONFIGS}>
                 <TextInput
-                  onChangeText={handleChange('username')}
-                  value={values.username}
-                  error={errors.username}
+                  onChangeText={handleChange('name')}
+                  value={values.name}
+                  error={errors.name}
                   editable={!isSubmitting}
                   placeholder={t('screen.Person.name')}
                   icon={IC_USER}
@@ -142,15 +160,6 @@ const PersonScreen = () => {
                   color={colors.primaryText}
                 />
                 <TextInput
-                  onChangeText={handleChange('address')}
-                  value={values.address}
-                  error={errors.address}
-                  editable={!isSubmitting}
-                  placeholder={t('screen.Person.address')}
-                  icon={IC_LOCATION}
-                  color={colors.primaryText}
-                />
-                <TextInput
                   onChangeText={handleChange('email')}
                   value={values.email}
                   error={errors.email}
@@ -158,6 +167,15 @@ const PersonScreen = () => {
                   placeholder={t('screen.Person.email')}
                   icon={IC_EMAIL}
                   keyboardType="email-address"
+                  color={colors.primaryText}
+                />
+                <TextInput
+                  onChangeText={handleChange('address')}
+                  value={values.address}
+                  error={errors.address}
+                  editable={!isSubmitting}
+                  placeholder={t('screen.Person.address')}
+                  icon={IC_LOCATION}
                   color={colors.primaryText}
                 />
                 <View style={styles.buttonGroup}>

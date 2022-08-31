@@ -23,9 +23,10 @@ export const generateUserDocument = async (
         id: user.uid,
         displayName: additionalData.username,
         createAt,
-        address: additionalData.email,
+        address: additionalData.address,
         phone: additionalData.phone,
-        username: additionalData.username,
+        name: additionalData.username,
+        email: additionalData.email,
         favoriteList,
       });
     } catch (error) {
