@@ -6,7 +6,7 @@ import AntDesignIcon from 'react-native-vector-icons/AntDesign';
 import { useNavigation } from '@react-navigation/native';
 import { AuthorizedNavigationProp } from '../../configs/Navigation';
 import { HOME } from '../../navigation/AuthorizedTab';
-import { useItem, useTheme } from '../../context';
+import { useAuth, useItem, useTheme } from '../../context';
 import { useTranslation } from 'react-i18next';
 
 const OrderedScreen = () => {
@@ -14,6 +14,7 @@ const OrderedScreen = () => {
   const { colors } = useTheme();
   const { deleteAllItems } = useItem();
   const { t } = useTranslation();
+  const { user } = useAuth();
 
   return (
     <View
@@ -26,10 +27,10 @@ const OrderedScreen = () => {
           {t('notification.ordered')}
         </Text>
         <Text style={[styles.notice1, { color: colors.primaryText }]}>
-          {t('notification.title1', { name: 'Patrick' })}
+          {t('notification.title1', { name: user.name })}
         </Text>
         <Text style={[styles.notice2, { color: colors.primaryText }]}>
-          {t('notification.title2', { address: 'Cebu City' })}
+          {t('notification.title2', { address: user.address })}
         </Text>
         <Text style={[styles.notice1, { color: colors.primaryText }]}>
           {t('notification.title3')}

@@ -10,7 +10,7 @@ import { useNavigation } from '@react-navigation/native';
 import { AuthorizedNavigationProp } from '../../../configs/Navigation';
 import { ORDERED } from '../../../navigation/CartStack';
 import { totalPrice, totalQuantity } from '../../../context/Item/item.utils';
-import { useApp, useItem } from '../../../context';
+import { useApp, useAuth, useItem } from '../../../context';
 import Toastify from '../../../components/Toast';
 import { useTranslation } from 'react-i18next';
 
@@ -24,6 +24,7 @@ const OrderPayment = ({ toggleModal }: Props) => {
   const { items } = useItem();
   const { showAppLoading, hideAppLoading } = useApp();
   const { t } = useTranslation();
+  const { user } = useAuth();
 
   const onSelect = (index: any, value: any) => {
     setMethod(value);
@@ -48,9 +49,9 @@ const OrderPayment = ({ toggleModal }: Props) => {
             <FeatherIcon name="shopping-cart" size={25} color="black" />
           </View>
           <View>
-            <Text style={{ fontWeight: '600' }}>Patrick</Text>
-            <Text>Christopher's Coffee store</Text>
-            <Text>Cebu City</Text>
+            <Text style={{ fontWeight: '600' }}>{user.name}</Text>
+            <Text>Christ's Coffee store</Text>
+            <Text>{user.address}</Text>
           </View>
         </View>
 

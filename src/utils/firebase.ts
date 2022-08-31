@@ -15,14 +15,14 @@ export const generateUserDocument = async (
   const snapshot = await userRef.get();
 
   if (!snapshot.exists) {
-    const createAt = new Date();
+    const createdAt = new Date();
     const favoriteList: FavoriteItem[] = [];
 
     try {
       await userRef.set({
         id: user.uid,
         displayName: additionalData.username,
-        createAt,
+        createdAt,
         address: additionalData.address,
         phone: additionalData.phone,
         name: additionalData.username,
