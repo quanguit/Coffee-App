@@ -22,6 +22,7 @@ export const userProps = {
   address: '',
   phone: '',
   email: '',
+  photoUrl: '',
 };
 
 type responseProps = {

@@ -1122,6 +1122,11 @@
   resolved "https://registry.yarnpkg.com/@klarna/react-native-vector-drawable/-/react-native-vector-drawable-0.3.0.tgz#b9a51a1e19aadf90cbf8c0065a43450f8cdbcb59"
   integrity sha512-f/qnXfmb5lQRhkqd4DAmeFMtxv18XYkNuJkVeCUiMYU1hzk7UkjJeBKU2hfuRFnzE8dW9ylxPvjfvvfsg5haag==
 
+"@merryjs/photo-viewer@^3.2.5":
+  version "3.2.5"
+  resolved "https://registry.yarnpkg.com/@merryjs/photo-viewer/-/photo-viewer-3.2.5.tgz#5392aa89ecfc23d91502909171aa66eba785c0a7"
+  integrity sha512-1BSnAicyusMhZG6w6siVYUfg7AqQX5DyQDKP/Q0dpWzeNEwVg6402JE9VBi6J7ARKGqoAfTVUiHgrjxf3FmqNw==
+
 "@nodelib/fs.scandir@2.1.5":
   version "2.1.5"
   resolved "https://registry.yarnpkg.com/@nodelib/fs.scandir/-/fs.scandir-2.1.5.tgz#7619c2eb21b25483f6d167548b4cfd5a7488c3d5"
@@ -1627,6 +1632,14 @@
   version "15.7.5"
   resolved "https://registry.yarnpkg.com/@types/prop-types/-/prop-types-15.7.5.tgz#5f19d2b85a98e9558036f6a3cacc8819420f05cf"
   integrity sha512-JCB8C6SnDoQf0cNycqd/35A7MjcnK+ZTqE7judS6o7utxUCg6imJg3QK2qzHKszlTjcj2cn+NwMB2i96ubpj7w==
+
+"@types/react-native-photo-view@^1.5.4":
+  version "1.5.4"
+  resolved "https://registry.yarnpkg.com/@types/react-native-photo-view/-/react-native-photo-view-1.5.4.tgz#1b7fd19e14859e878182a28e217e7e8419319f6b"
+  integrity sha512-n8jYvFDICQyzgURvQU2l0sykoaqG/3efu/AJSGLhVMrzKr7pqegi4xDbJlKnCgjR/C2oRL0IqlAgsXZ9brM/qw==
+  dependencies:
+    "@types/react" "*"
+    "@types/react-native" "*"
 
 "@types/react-native-vector-icons@^6.4.11":
   version "6.4.11"
@@ -6874,7 +6887,7 @@ prompts@^2.0.1, prompts@^2.4.0:
     kleur "^3.0.3"
     sisteransi "^1.0.5"
 
-prop-types@^15.6.2, prop-types@^15.7.2, prop-types@^15.8.1:
+prop-types@^15.5.10, prop-types@^15.6.2, prop-types@^15.7.2, prop-types@^15.8.1:
   version "15.8.1"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.8.1.tgz#67d87bf1a694f48435cf332c24af10214a3140b5"
   integrity sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg==
@@ -7040,6 +7053,16 @@ react-native-gradle-plugin@^0.0.7:
   resolved "https://registry.yarnpkg.com/react-native-gradle-plugin/-/react-native-gradle-plugin-0.0.7.tgz#96602f909745239deab7b589443f14fce5da2056"
   integrity sha512-+4JpbIx42zGTONhBTIXSyfyHICHC29VTvhkkoUOJAh/XHPEixpuBduYgf6Y4y9wsN1ARlQhBBoptTvXvAFQf5g==
 
+react-native-image-base64@^0.1.4:
+  version "0.1.4"
+  resolved "https://registry.yarnpkg.com/react-native-image-base64/-/react-native-image-base64-0.1.4.tgz#0a4687740de9b04df63e649c5946fc646bc0f4e9"
+  integrity sha512-WLdzwHdXFRLS9VStG1CG46+t+fcInjVWxKd1+AATElBhaAS3zwDHz7mYIZS1OX4VMuNClwl5G8dowuqUJ9aMGQ==
+
+react-native-image-picker@^4.10.0:
+  version "4.10.0"
+  resolved "https://registry.yarnpkg.com/react-native-image-picker/-/react-native-image-picker-4.10.0.tgz#471ca942bd1189134eff63e25903147f54aeb8c2"
+  integrity sha512-QNK4ZnFLD+BdiM1QL1jh9GUALhRXm3MV97crhnTCSMv50H6E4tq3ozgfyxF5uKz0cECbNkWswg4sjgqZKEJtww==
+
 react-native-iphone-x-helper@^1.0.3:
   version "1.3.1"
   resolved "https://registry.yarnpkg.com/react-native-iphone-x-helper/-/react-native-iphone-x-helper-1.3.1.tgz#20c603e9a0e765fd6f97396638bdeb0e5a60b010"
@@ -7060,6 +7083,13 @@ react-native-modal@^13.0.1:
   dependencies:
     prop-types "^15.6.2"
     react-native-animatable "1.3.3"
+
+react-native-photo-view@^1.5.2:
+  version "1.5.2"
+  resolved "https://registry.yarnpkg.com/react-native-photo-view/-/react-native-photo-view-1.5.2.tgz#5d7f406ed5532a5a8a78c8ef8f40e81f688de1e2"
+  integrity sha512-HIb+3ku127rsgsxqe+8QQKOeeJe8xMOWpbwjRKND+nSzcWdKl7mUsTLfrY1xSi2kOWCUvRS4EZnH9B8GhtfUxg==
+  dependencies:
+    prop-types "^15.5.10"
 
 react-native-qrcode-svg@^6.1.2:
   version "6.1.2"

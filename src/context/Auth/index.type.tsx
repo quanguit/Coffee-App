@@ -6,6 +6,7 @@ export type UserProps = {
   address: string;
   phone: string;
   email: string;
+  photoUrl?: string;
 };
 
 export type AuthType = {

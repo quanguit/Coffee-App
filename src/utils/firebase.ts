@@ -28,6 +28,8 @@ export const generateUserDocument = async (
         name: additionalData.username,
         email: additionalData.email,
         favoriteList,
+        photoUrl:
+          'https://i.pinimg.com/564x/0c/3b/3a/0c3b3adb1a7530892e55ef36d3be6cb8.jpg',
       });
     } catch (error) {
       console.error('Error creating user document', error);

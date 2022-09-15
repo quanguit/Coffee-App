@@ -39,6 +39,7 @@ export type Formvalues = {
   password: string;
   cf_password?: string;
   address?: string;
+  photoUrl?: string;
 };
 
 const SignUpScreen = ({ navigation }: Props) => {

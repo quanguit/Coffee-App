@@ -53,7 +53,7 @@ const DetailScreen = () => {
     const userRef = firestore().collection('users').doc(`${user.id}`);
     const favorList = (await userRef.get()).data()?.favoriteList;
 
-    // handle response all items were liked ==>>>>> hack
+    // handle response some items were liked ==>>>>> hack
     setIsLiked(
       favorList
         ?.map((favor: FavoriteItem) => favor.id)

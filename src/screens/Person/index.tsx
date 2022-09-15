@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import {
+  Image,
   ScrollView,
   StyleSheet,
   Text,
@@ -9,8 +10,7 @@ import {
 import { IC_LOCATION, IC_EMAIL, IC_PHONENUMBER, IC_USER } from '../../assets';
 import Header from '../../components/Header';
 import Input from './components/Input';
-import QRCode from 'react-native-qrcode-svg';
-import { useAuth, useLanguage, useTheme } from '../../context';
+import { useApp, useAuth, useLanguage, useTheme } from '../../context';
 import Button from '../../components/Button';
 import {
   DEFAULT_KEYBOARD_AWARE_SCROLL_VIEW_CONFIGS,
@@ -24,20 +24,54 @@ import Modal from 'react-native-modal';
 import { useTranslation } from 'react-i18next';
 import firestore from '@react-native-firebase/firestore';
 import { UserProps } from '../../context/Auth/index.type';
+import {
+  ImageLibraryOptions,
+  CameraOptions,
+  launchImageLibrary,
+} from 'react-native-image-picker';
+import ImgToBase64 from 'react-native-image-base64';
+import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
+import { useFocusEffect } from '@react-navigation/native';
+import PhotoView from '@merryjs/photo-viewer';
 
-const PersonScreen = () => {
+const PersonScreen = ({}) => {
   const { colors } = useTheme();
   const [validateOnChange, setValidateOnChange] = useState(false);
   const [isModalVisible, setModalVisible] = useState(false);
   const { language, changeLanguage } = useLanguage();
   const { t } = useTranslation();
+  const { showAppLoading, hideAppLoading } = useApp();
   const { signOut, user, setUser } = useAuth();
+  const [imageUrl, setImageUrl] = useState<string | undefined>(user.photoUrl);
+  const [isChanged, setIsChanged] = useState(false);
+  const [visiblePhoto, setVisiblePhoto] = useState(false);
+
+  const photos = [
+    {
+      source: {
+        uri: `${imageUrl}`,
+      },
+    },
+  ];
+
+  useFocusEffect(
+    useCallback(() => {
+      return () => {
+        if (isChanged) {
+          setIsChanged(false);
+          setImageUrl(user.photoUrl);
+        }
+      };
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [isChanged]),
+  );
 
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
   };
 
   const updateProfile = async (updateUser: UserProps) => {
+    showAppLoading();
     const userRef = firestore().collection('users').doc(`${updateUser.id}`);
 
     try {
@@ -47,6 +81,50 @@ const PersonScreen = () => {
       });
       setUser(updateUser);
       toggleModal();
+      hideAppLoading();
+    } catch (error) {
+      console.log('Error remove item', error);
+    }
+  };
+
+  const showImage = () => {
+    setVisiblePhoto(true);
+  };
+
+  const loadLib = async () => {
+    const options: ImageLibraryOptions & CameraOptions = {
+      mediaType: 'photo',
+      includeBase64: false,
+      maxHeight: 200,
+      maxWidth: 200,
+      saveToPhotos: true,
+    };
+
+    try {
+      const result = await launchImageLibrary(options);
+      const convertImageUrl = await ImgToBase64.getBase64String(
+        result.assets?.[0]?.uri,
+      );
+      if (convertImageUrl !== undefined) {
+        setImageUrl(`data:image/png;base64,${convertImageUrl}`);
+        setIsChanged(true);
+      }
+    } catch (error) {
+      console.log('error Image: ', error);
+    }
+  };
+
+  const saveImage = async (newImage: string) => {
+    showAppLoading();
+    const userRef = firestore().collection('users').doc(`${user.id}`);
+    try {
+      await userRef.update({
+        ...user,
+        photoUrl: newImage,
+      });
+      setUser(user);
+      setIsChanged(false);
+      hideAppLoading();
     } catch (error) {
       console.log('Error remove item', error);
     }
@@ -56,6 +134,21 @@ const PersonScreen = () => {
     <View
       style={[styles.container, { backgroundColor: colors.primaryBackground }]}>
       <Header title="Person" canBack canChangeTheme />
+      <View style={styles.avatarSection}>
+        <TouchableOpacity onPress={showImage}>
+          <Image source={{ uri: imageUrl }} style={styles.avatar} />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={loadLib} style={styles.icon}>
+          <FontAwesome5Icon name="edit" size={20} color={colors.primaryText} />
+        </TouchableOpacity>
+      </View>
+      {isChanged && (
+        <TouchableOpacity onPress={() => saveImage(imageUrl || '')}>
+          <Text style={[styles.textChange, { color: colors.primaryText }]}>
+            {t('common.change')}
+          </Text>
+        </TouchableOpacity>
+      )}
       <Input
         image={IC_USER}
         title={t('screen.Person.name')}
@@ -101,10 +194,6 @@ const PersonScreen = () => {
           onPress={signOut}
         />
       </View>
-      <View style={styles.qrcode}>
-        <QRCode value="https://reactnative.dev/" size={250} />
-      </View>
-
       <Modal
         isVisible={isModalVisible}
         coverScreen={false}
@@ -197,6 +286,13 @@ const PersonScreen = () => {
           </Formik>
         </ScrollView>
       </Modal>
+      <PhotoView
+        visible={visiblePhoto}
+        data={photos}
+        initial={0}
+        hideStatusBar={true}
+        onDismiss={() => setVisiblePhoto(false)}
+      />
     </View>
   );
 };
@@ -204,11 +300,6 @@ const PersonScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-  },
-  qrcode: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
   },
   modal: {
     marginVertical: 150,
@@ -246,6 +337,28 @@ const styles = StyleSheet.create({
       height: 0,
     },
     shadowOpacity: 1,
+  },
+  avatarSection: {
+    position: 'relative',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 16,
+  },
+  avatar: {
+    width: 90,
+    height: 90,
+    borderRadius: 50,
+  },
+  textChange: {
+    textAlign: 'center',
+    fontWeight: '600',
+    fontSize: 17,
+    marginBottom: 6,
+  },
+  icon: {
+    position: 'absolute',
+    top: 60,
+    right: 145,
   },
 });
 
