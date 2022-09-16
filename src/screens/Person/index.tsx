@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useState } from 'react';
 import {
   Image,
   ScrollView,
@@ -31,10 +31,9 @@ import {
 } from 'react-native-image-picker';
 import ImgToBase64 from 'react-native-image-base64';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
-import { useFocusEffect } from '@react-navigation/native';
 import PhotoView from '@merryjs/photo-viewer';
 
-const PersonScreen = ({}) => {
+const PersonScreen = () => {
   const { colors } = useTheme();
   const [validateOnChange, setValidateOnChange] = useState(false);
   const [isModalVisible, setModalVisible] = useState(false);
@@ -53,18 +52,6 @@ const PersonScreen = ({}) => {
       },
     },
   ];
-
-  useFocusEffect(
-    useCallback(() => {
-      return () => {
-        if (isChanged) {
-          setIsChanged(false);
-          setImageUrl(user.photoUrl);
-        }
-      };
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [isChanged]),
-  );
 
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
@@ -114,13 +101,14 @@ const PersonScreen = ({}) => {
     }
   };
 
-  const saveImage = async (newImage: string) => {
+  const savePhoto = async () => {
     showAppLoading();
     const userRef = firestore().collection('users').doc(`${user.id}`);
+
     try {
       await userRef.update({
         ...user,
-        photoUrl: newImage,
+        photoUrl: imageUrl,
       });
       setUser(user);
       setIsChanged(false);
@@ -143,7 +131,7 @@ const PersonScreen = ({}) => {
         </TouchableOpacity>
       </View>
       {isChanged && (
-        <TouchableOpacity onPress={() => saveImage(imageUrl || '')}>
+        <TouchableOpacity onPress={savePhoto}>
           <Text style={[styles.textChange, { color: colors.primaryText }]}>
             {t('common.change')}
           </Text>
