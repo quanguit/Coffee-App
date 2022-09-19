@@ -10,13 +10,12 @@ import {
 import Ionicon from 'react-native-vector-icons/Ionicons';
 import { HEADER_HEIGHT, SCREEN_MARGIN_HORIZONTAL } from '../configs/App';
 import ShadowView from 'react-native-simple-shadow-view';
-import { IC_AVATAR } from '../assets';
 import { useNavigation } from '@react-navigation/native';
 import { PERSON } from '../navigation/AuthorizedTab';
 import { AuthorizedNavigationProp } from '../configs/Navigation';
 import EntypoIcon from 'react-native-vector-icons/Entypo';
 import Fontisto from 'react-native-vector-icons/Fontisto';
-import { useTheme } from '../context';
+import { useAuth, useTheme } from '../context';
 import { useTranslation } from 'react-i18next';
 
 type Props = {
@@ -30,6 +29,7 @@ const Header = ({ user, canBack, title, canChangeTheme }: Props) => {
   const navigation = useNavigation<AuthorizedNavigationProp>();
   const { isDark, colors, changeTheme } = useTheme();
   const { t } = useTranslation();
+  const { user: USER } = useAuth();
 
   return (
     <ShadowView style={{ backgroundColor: colors.primaryBackground }}>
@@ -58,7 +58,12 @@ const Header = ({ user, canBack, title, canChangeTheme }: Props) => {
           <TouchableOpacity
             style={styles.titleContainer}
             onPress={() => navigation.navigate(PERSON)}>
-            <Image source={IC_AVATAR} style={styles.avatar} />
+            <Image
+              source={{
+                uri: USER.photoUrl !== '' ? USER.photoUrl : undefined,
+              }}
+              style={styles.avatar}
+            />
           </TouchableOpacity>
         )}
         {canChangeTheme && (

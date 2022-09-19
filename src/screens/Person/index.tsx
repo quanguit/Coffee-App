@@ -104,13 +104,11 @@ const PersonScreen = () => {
   const savePhoto = async () => {
     showAppLoading();
     const userRef = firestore().collection('users').doc(`${user.id}`);
+    const newUser = { ...user, photoUrl: imageUrl };
 
     try {
-      await userRef.update({
-        ...user,
-        photoUrl: imageUrl,
-      });
-      setUser(user);
+      await userRef.update(newUser);
+      setUser(newUser);
       setIsChanged(false);
       hideAppLoading();
     } catch (error) {
